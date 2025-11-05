@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-12 col-lg-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h4 class="card-title">Live</h4>
+        <form method="post" action="/expert/live" class="vstack gap-2">
+          <div>
+            <label class="form-label">Population density</label>
+            <select name="density" class="form-select">
+              <option value="high">High</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Climate</label>
+            <select name="climate" class="form-select">
+              <option value="cold">Cold</option>
+              <option value="moderate">Moderate</option>
+              <option value="hot">Hot</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Government</label>
+            <select name="government" class="form-select">
+              <option value="democracy">Democracy</option>
+              <option value="communist">Communist</option>
+              <option value="monarchy">Monarchy</option>
+              <option value="republic">Republic</option>
+              <option value="federal">Federal</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Religion</label>
+            <select name="religion" class="form-select">
+              <option value="christianity">Christianity</option>
+              <option value="buddhism">Buddhism</option>
+              <option value="hinduism">Hinduism</option>
+              <option value="islam">Islam</option>
+              <option value="atheist">Atheist</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary mt-2">Suggest countries</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h4 class="card-title">Work</h4>
+        <form method="post" action="/expert/work" class="vstack gap-2">
+          <div>
+            <label class="form-label">Mode</label>
+            <select name="mode" class="form-select">
+              <option value="business">Business</option>
+              <option value="job">Job</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Trade (for business)</label>
+            <select name="trade" class="form-select">
+              <option value="import">Imports</option>
+              <option value="export">Exports</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Field</label>
+            <select name="domain" class="form-select">
+              <option value="technology">Technology</option>
+              <option value="manufacturing">Manufacturing</option>
+              <option value="tourism">Tourism</option>
+              <option value="infrastructure">Infrastructure</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary mt-2">Suggest countries</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h4 class="card-title">Travel</h4>
+        <form method="post" action="/expert/travel" class="vstack gap-2">
+          <div>
+            <label class="form-label">Budget (per person)</label>
+            <select name="budget" class="form-select">
+              <option value="under1">Under 1 lakh INR</option>
+              <option value="between1and2">Between 1 and 2 lakhs INR</option>
+              <option value="above2">Above 2 lakhs INR</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Type of place</label>
+            <select name="place_type" class="form-select">
+              <option value="historical">Historical</option>
+              <option value="hill station">Hill Station</option>
+              <option value="desert">Desert Safari</option>
+              <option value="beach">Beaches</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary mt-2">Suggest places</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if result is not none %}
+<div class="card shadow-sm mt-4">
+  <div class="card-body">
+    <h4 class="card-title">Results</h4>
+    {% if result %}
+      <ul class="list-group">
+        {% for item in result %}
+          <li class="list-group-item">{{ item|upper }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="mb-0">No results found for your preferences.</p>
+    {% endif %}
+  </div>
+  </div>
+{% endif %}
+
+{% endblock %}
+
+

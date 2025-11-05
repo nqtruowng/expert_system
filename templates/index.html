@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-12 col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h3 class="card-title">Welcome</h3>
+        <p class="card-text">Choose an option to get started:</p>
+        <div class="list-group">
+          <a class="list-group-item list-group-item-action" href="/countries">List the countries</a>
+          <a class="list-group-item list-group-item-action" href="/search">Search geographic details (Knowledge-based)</a>
+          <a class="list-group-item list-group-item-action" href="/expert">Suggestions to LIVE, WORK or TRAVEL (Rule-based)</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-lg-4">
+    <div class="card border-0 bg-light">
+      <div class="card-body">
+        <h6 class="text-uppercase text-muted">About data</h6>
+        <p class="mb-2">CIA World Factbook HTML (offline), <code>countries.csv</code>, <code>Tourism.csv</code>.</p>
+        <h6 class="text-uppercase text-muted">Run locally</h6>
+        <pre class="mb-0"><code>python web_app.py
+http://127.0.0.1:5000</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
