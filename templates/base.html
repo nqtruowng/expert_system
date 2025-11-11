@@ -10,17 +10,28 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
-      <a class="navbar-brand" href="/">Expert System</a>
+      <a class="navbar-brand" href="/">Hệ chuyên gia</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="nav">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="/countries">Countries</a></li>
-          <li class="nav-item"><a class="nav-link" href="/search">Knowledge Search</a></li>
-          <li class="nav-item"><a class="nav-link" href="/expert">Expert Suggestions</a></li>
+          <li class="nav-item"><a class="nav-link" href="/">Trang chủ</a></li>
+          <li class="nav-item"><a class="nav-link" href="/countries">Quốc gia</a></li>
+          <li class="nav-item"><a class="nav-link" href="/search">Tra cứu</a></li>
+          <li class="nav-item"><a class="nav-link" href="/expert">Gợi ý</a></li>
+          {% if session.get('role') == 'manager' %}
+          <li class="nav-item"><a class="nav-link" href="/admin">Quản trị</a></li>
+          {% endif %}
         </ul>
+        <div class="d-flex">
+          {% if session.get('user') %}
+            <span class="navbar-text me-3">Xin chào, {{ session.get('user') }} ({{ session.get('role') }})</span>
+            <a class="btn btn-outline-light btn-sm" href="/logout">Đăng xuất</a>
+          {% else %}
+            <a class="btn btn-light btn-sm" href="/login">Đăng nhập</a>
+          {% endif %}
+        </div>
       </div>
     </div>
   </nav>

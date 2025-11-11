@@ -1,132 +1,150 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="row g-4">
-  <div class="col-12 col-lg-4">
-    <div class="card shadow-sm h-100">
-      <div class="card-body">
-        <h4 class="card-title">Live</h4>
-        <form method="post" action="/expert/live" class="vstack gap-2">
+<div class="card shadow-sm">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs" id="expertTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link {% if section == 'live' or section is none %}active{% endif %}" id="live-tab" data-bs-toggle="tab" data-bs-target="#live" type="button" role="tab" aria-controls="live" aria-selected="true">Sống</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link {% if section == 'work' %}active{% endif %}" id="work-tab" data-bs-toggle="tab" data-bs-target="#work" type="button" role="tab" aria-controls="work" aria-selected="false">Làm việc</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link {% if section == 'travel' %}active{% endif %}" id="travel-tab" data-bs-toggle="tab" data-bs-target="#travel" type="button" role="tab" aria-controls="travel" aria-selected="false">Du lịch</button>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body">
+    <div class="tab-content" id="expertTabsContent">
+      <div class="tab-pane fade {% if section == 'live' or section is none %}show active{% endif %}" id="live" role="tabpanel" aria-labelledby="live-tab">
+        <h4 class="card-title">Gợi ý quốc gia để sinh sống</h4>
+        <form method="post" action="/expert/live" class="vstack gap-3 mt-3">
           <div>
-            <label class="form-label">Population density</label>
+            <label class="form-label">Mật độ dân số</label>
             <select name="density" class="form-select">
-              <option value="high">High</option>
-              <option value="low">Low</option>
+              <option value="high">Cao</option>
+              <option value="low">Thấp</option>
             </select>
           </div>
           <div>
-            <label class="form-label">Climate</label>
+            <label class="form-label">Khí hậu</label>
             <select name="climate" class="form-select">
-              <option value="cold">Cold</option>
-              <option value="moderate">Moderate</option>
-              <option value="hot">Hot</option>
+              <option value="cold">Lạnh</option>
+              <option value="moderate">Ôn hòa</option>
+              <option value="hot">Nóng</option>
             </select>
           </div>
           <div>
-            <label class="form-label">Government</label>
+            <label class="form-label">Hình thức chính phủ</label>
             <select name="government" class="form-select">
-              <option value="democracy">Democracy</option>
-              <option value="communist">Communist</option>
-              <option value="monarchy">Monarchy</option>
-              <option value="republic">Republic</option>
-              <option value="federal">Federal</option>
+              <option value="democracy">Dân chủ</option>
+              <option value="communist">Cộng sản</option>
+              <option value="monarchy">Quân chủ</option>
+              <option value="republic">Cộng hòa</option>
+              <option value="federal">Liên bang</option>
             </select>
           </div>
           <div>
-            <label class="form-label">Religion</label>
+            <label class="form-label">Tôn giáo</label>
             <select name="religion" class="form-select">
-              <option value="christianity">Christianity</option>
-              <option value="buddhism">Buddhism</option>
-              <option value="hinduism">Hinduism</option>
-              <option value="islam">Islam</option>
-              <option value="atheist">Atheist</option>
+              <option value="christianity">Thiên chúa giáo</option>
+              <option value="buddhism">Phật giáo</option>
+              <option value="hinduism">Ấn Độ giáo</option>
+              <option value="islam">Hồi giáo</option>
+              <option value="atheist">Vô thần</option>
             </select>
           </div>
-          <button type="submit" class="btn btn-primary mt-2">Suggest countries</button>
+          <button type="submit" class="btn btn-primary mt-2">Gợi ý quốc gia</button>
         </form>
+        {% if section == 'live' %}
+        <hr>
+        <h5>Kết quả</h5>
+        {% if result %}
+          <ul class="list-group">
+            {% for item in result %}<li class="list-group-item">{{ item|upper }}</li>{% endfor %}
+          </ul>
+        {% else %}
+          <p class="mb-0">Không có kết quả phù hợp.</p>
+        {% endif %}
+        {% endif %}
       </div>
-    </div>
-  </div>
-
-  <div class="col-12 col-lg-4">
-    <div class="card shadow-sm h-100">
-      <div class="card-body">
-        <h4 class="card-title">Work</h4>
-        <form method="post" action="/expert/work" class="vstack gap-2">
+      <div class="tab-pane fade {% if section == 'work' %}show active{% endif %}" id="work" role="tabpanel" aria-labelledby="work-tab">
+        <h4 class="card-title">Gợi ý quốc gia để làm việc</h4>
+        <form method="post" action="/expert/work" class="vstack gap-3 mt-3">
           <div>
-            <label class="form-label">Mode</label>
+            <label class="form-label">Chế độ</label>
             <select name="mode" class="form-select">
-              <option value="business">Business</option>
-              <option value="job">Job</option>
+              <option value="business">Kinh doanh</option>
+              <option value="job">Làm công</option>
             </select>
           </div>
           <div>
-            <label class="form-label">Trade (for business)</label>
+            <label class="form-label">Thương mại (cho kinh doanh)</label>
             <select name="trade" class="form-select">
-              <option value="import">Imports</option>
-              <option value="export">Exports</option>
+              <option value="import">Nhập khẩu</option>
+              <option value="export">Xuất khẩu</option>
             </select>
           </div>
           <div>
-            <label class="form-label">Field</label>
+            <label class="form-label">Lĩnh vực</label>
             <select name="domain" class="form-select">
-              <option value="technology">Technology</option>
-              <option value="manufacturing">Manufacturing</option>
-              <option value="tourism">Tourism</option>
-              <option value="infrastructure">Infrastructure</option>
+              <option value="technology">Công nghệ</option>
+              <option value="manufacturing">Sản xuất</option>
+              <option value="tourism">Du lịch</option>
+              <option value="infrastructure">Hạ tầng</option>
             </select>
           </div>
-          <button type="submit" class="btn btn-primary mt-2">Suggest countries</button>
+          <button type="submit" class="btn btn-primary mt-2">Gợi ý quốc gia</button>
         </form>
+        {% if section == 'work' %}
+        <hr>
+        <h5>Kết quả</h5>
+        {% if result %}
+          <ul class="list-group">
+            {% for item in result %}<li class="list-group-item">{{ item|upper }}</li>{% endfor %}
+          </ul>
+        {% else %}
+          <p class="mb-0">Không có kết quả phù hợp.</p>
+        {% endif %}
+        {% endif %}
       </div>
-    </div>
-  </div>
-
-  <div class="col-12 col-lg-4">
-    <div class="card shadow-sm h-100">
-      <div class="card-body">
-        <h4 class="card-title">Travel</h4>
-        <form method="post" action="/expert/travel" class="vstack gap-2">
+      <div class="tab-pane fade {% if section == 'travel' %}show active{% endif %}" id="travel" role="tabpanel" aria-labelledby="travel-tab">
+        <h4 class="card-title">Gợi ý địa điểm du lịch</h4>
+        <form method="post" action="/expert/travel" class="vstack gap-3 mt-3">
           <div>
-            <label class="form-label">Budget (per person)</label>
+            <label class="form-label">Ngân sách (mỗi người)</label>
             <select name="budget" class="form-select">
-              <option value="under1">Under 1 lakh INR</option>
-              <option value="between1and2">Between 1 and 2 lakhs INR</option>
-              <option value="above2">Above 2 lakhs INR</option>
+              <option value="vnd_under_30m">Dưới 30.000.000 VND</option>
+              <option value="vnd_30_60m">30–60 triệu VND</option>
+              <option value="vnd_above_60m">Trên 60.000.000 VND</option>
             </select>
           </div>
           <div>
-            <label class="form-label">Type of place</label>
+            <label class="form-label">Loại địa điểm</label>
             <select name="place_type" class="form-select">
-              <option value="historical">Historical</option>
-              <option value="hill station">Hill Station</option>
-              <option value="desert">Desert Safari</option>
-              <option value="beach">Beaches</option>
+              <option value="historical">Lịch sử</option>
+              <option value="hill station">Núi đồi</option>
+              <option value="desert">Sa mạc</option>
+              <option value="beach">Biển</option>
             </select>
           </div>
-          <button type="submit" class="btn btn-primary mt-2">Suggest places</button>
+          <button type="submit" class="btn btn-primary mt-2">Gợi ý địa điểm</button>
         </form>
+        {% if section == 'travel' %}
+        <hr>
+        <h5>Kết quả</h5>
+        {% if result %}
+          <ul class="list-group">
+            {% for item in result %}<li class="list-group-item">{{ item|upper }}</li>{% endfor %}
+          </ul>
+        {% else %}
+          <p class="mb-0">Không có kết quả phù hợp.</p>
+        {% endif %}
+        {% endif %}
       </div>
     </div>
   </div>
 </div>
-
-{% if result is not none %}
-<div class="card shadow-sm mt-4">
-  <div class="card-body">
-    <h4 class="card-title">Results</h4>
-    {% if result %}
-      <ul class="list-group">
-        {% for item in result %}
-          <li class="list-group-item">{{ item|upper }}</li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p class="mb-0">No results found for your preferences.</p>
-    {% endif %}
-  </div>
-  </div>
-{% endif %}
-
 {% endblock %}
 
 

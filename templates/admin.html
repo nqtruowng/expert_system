@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="mb-0">Bảng điều khiển Quản trị</h2>
+  <div class="alert alert-info mb-0 py-2 px-3">
+    Đăng nhập: <strong>{{ session.get('user') }}</strong> ({{ session.get('role') }})
+  </div>
+</div>
+
+<div class="row g-4">
+  <div class="col-12 col-md-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h4 class="card-title">Quản lý Countries (countries.csv)</h4>
+        <p class="card-text">Thêm/sửa dữ liệu phục vụ gợi ý Sống/Làm việc.</p>
+        <a class="btn btn-primary" href="/admin/countries">Mở</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-body d-flex flex-column">
+        <h4 class="card-title">Quản lý Tourism (Tourism.csv)</h4>
+        <p class="card-text">Thêm/sửa dữ liệu phục vụ gợi ý Du lịch.</p>
+        <a class="btn btn-primary mt-auto" href="/admin/tourism">Mở</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+

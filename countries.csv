@@ -15,11 +15,9 @@ Australia,Democracy,Manufacturing,Christianity,"1,256.64",2,hot,245.9,184,Export
 Spain,Monarchy,Technology,Christianity,"1,252.16",210,moderate,337.9,283,Import,,,
 Mexico,Democracy,Tourism,Christianity,"1,063.61",57,moderate,218.9,380,Import,,,
 Indonesia,Democracy,Technology,Buddhism,940.953,130,moderate,178.6,152,Import,,,
-Netherlands,Monarchy,"manufacturing
-",Atheist,769.93,491,cold,488.8,476,Import,,,
+Netherlands,Monarchy,"manufacturing",Atheist,769.93,491,cold,488.8,476,Import,,,
 Turkey,Democracy,Manufacturing,Islam,735.716,237,moderate,242.9,153,Export,,,
-Switzerland,republic,Manufacturing,Christianity,662.483,490,cold,333.8,290,Export,,,"
-"
+Switzerland,republic,Manufacturing,Christianity,662.483,490,cold,333.8,290,Export,,,
 Saudi Arabia,Monarchy,Infrastructure,Islam,637.785,33,hot,147,284,Export,,,
 Argentina,republic,Manufacturing,Christianity,541.748,14,hot,65.56,65,Export,,,
 Taiwan Province of China,Democracy,Technology,Buddhism,519.149,1849,moderate,277.5,280,Export,,,

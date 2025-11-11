@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="card shadow-sm">
-  <div class="card-body">
-    <h3 class="card-title">Knowledge-based Search</h3>
-    <form method="post" action="/search" class="row gy-3 align-items-end">
+  <div class="card-body p-lg-4">
+    <h3 class="card-title">Tra cứu kiến thức</h3>
+    <p class="card-text text-muted">Chọn một quốc gia và nhập truy vấn để tìm kiếm thông tin chi tiết.</p>
+    <form method="post" action="/search" class="row gy-3 mt-3">
       <div class="col-12 col-md-4">
-        <label for="country" class="form-label">Country</label>
+        <label for="country" class="form-label">Quốc gia</label>
         <select id="country" name="country" required class="form-select">
           <option value="">-- choose --</option>
           {% for c in countries %}
@@ -14,21 +15,22 @@
         </select>
       </div>
       <div class="col-12 col-md-6">
-        <label for="query" class="form-label">What would you like to know?</label>
-        <input type="text" id="query" name="query" class="form-control" placeholder="e.g. location, climate, population" value="{{ query or '' }}" />
-        <div class="form-text">Special commands: <code>;lst</code>, <code>;keys</code>, <code>;matches &lt;keyword&gt;</code></div>
+        <label for="query" class="form-label">Bạn muốn biết gì?</label>
+        <input type="text" id="query" name="query" class="form-control" placeholder="ví dụ: location, climate, population" value="{{ query or '' }}" />
+        <div class="form-text">Lệnh đặc biệt: <code>;lst(Liệt kê toàn bộ)</code>, <code>;keys (Danh sách đầu mục)</code>, <code>;matches Tìm kiếm gần đúng &lt;từ-khóa&gt;</code></div>
       </div>
       <div class="col-12 col-md-2">
-        <button type="submit" class="btn btn-primary w-100">Search</button>
+        <label class="form-label" style="visibility: hidden;">Button</label>
+        <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
       </div>
     </form>
   </div>
 </div>
 
 {% if results is not none %}
-<div class="card mt-3 shadow-sm">
+<div class="card mt-4 shadow-sm">
   <div class="card-body">
-    <h4 class="card-title">Results{% if country %} for {{ country|upper }}{% endif %}</h4>
+    <h4 class="card-title">Kết quả{% if country %} cho <span class="text-primary">{{ country|upper }}</span>{% endif %}</h4>
     {% if results %}
       <div class="accordion" id="resultsAccordion">
         {% for key, val in results %}
@@ -45,7 +47,7 @@
         {% endfor %}
       </div>
     {% else %}
-      <p class="mb-0">No close matches found.</p>
+      <p class="mb-0">Không tìm thấy mục phù hợp.</p>
     {% endif %}
   </div>
 </div>

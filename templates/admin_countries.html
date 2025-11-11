@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-12 d-flex justify-content-between align-items-center">
+    <h3 class="mb-0">Quản lý Countries (countries.csv)</h3>
+    <a class="btn btn-outline-secondary" href="/admin">⟵ Bảng điều khiển</a>
+  </div>
+
+  <div class="col-12 col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h5 class="card-title mb-0">Danh sách (50 dòng đầu)</h5>
+          <input id="filterCountries" type="text" class="form-control w-auto" placeholder="Lọc...">
+        </div>
+        <div class="table-responsive">
+          <table class="table table-sm table-striped align-middle" id="countriesTable">
+            <thead>
+              <tr>
+                {% for h in header %}<th>{{ h }}</th>{% endfor %}
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for r in rows %}
+              <tr class="filter-row">
+                {% for cell in r %}<td>{{ cell }}</td>{% endfor %}
+                <td class="text-end"><a class="btn btn-outline-primary btn-sm" href="/admin/countries?key={{ r[0] }}">Edit</a></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">{% if existing %}Sửa{% else %}Thêm{% endif %} Dữ liệu</h5>
+        {% if header %}
+        <form method="post" action="/admin/countries" class="vstack gap-2">
+          <input type="hidden" name="_original_key" value="{{ existing[header[0]] if existing else '' }}">
+          {% for h in header %}
+          <div>
+            <label class="form-label">{{ h }}</label>
+            <input class="form-control {% if loop.first %}fw-bold{% endif %}" name="{{ h }}" value="{{ existing[h] if existing and h in existing else '' }}" {% if loop.first and existing %}readonly{% endif %}>
+            {% if loop.first and existing %}
+            <div class="form-text">Không thể sửa khóa chính.</div>
+            {% endif %}
+          </div>
+          {% endfor %}
+          <div class="d-flex gap-2 mt-2">
+            <button type="submit" class="btn btn-primary">Lưu</button>
+            {% if existing %}
+            <a href="/admin/countries" class="btn btn-outline-secondary">Hủy</a>
+            {% endif %}
+          </div>
+          <div class="form-text">Khóa chính: {{ header[0] }} (dùng để xác định và cập nhật dòng).</div>
+        </form>
+        {% else %}
+          <div class="alert alert-warning">countries.csv trống.</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const input = document.getElementById('filterCountries');
+    if (!input) return;
+    const rows = Array.from(document.querySelectorAll('#countriesTable .filter-row'));
+    input.addEventListener('input', () => {
+      const q = input.value.toLowerCase();
+      rows.forEach(tr => {
+        tr.style.display = tr.innerText.toLowerCase().includes(q) ? '' : 'none';
+      });
+    });
+  })();
+</script>
+{% endblock %}
+
+
