@@ -1,31 +1,60 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="row g-4">
-  <div class="col-12 d-flex justify-content-between align-items-center">
+<div class="row g-4 admin-layout">
+  <div class="col-12 d-flex justify-content-between align-items-center admin-section-header">
     <h3 class="mb-0">Quản lý Tourism (Tourism.csv)</h3>
     <a class="btn btn-outline-secondary" href="/admin">⟵ Bảng điều khiển</a>
   </div>
 
   <div class="col-12 col-lg-8">
-    <div class="card shadow-sm">
+    <div class="card shadow-sm admin-table-card">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-2">
-          <h5 class="card-title mb-0">Danh sách (50 dòng đầu)</h5>
+          <h5 class="card-title mb-0">Danh sách ({{ rows|length }} dòng)</h5>
           <input id="filterTourism" type="text" class="form-control w-auto" placeholder="Lọc...">
         </div>
-        <div class="table-responsive">
+        <div class="table-responsive admin-table-scroll">
           <table class="table table-sm table-striped align-middle" id="tourismTable">
             <thead>
               <tr>
-                {% for h in header %}<th>{{ h }}</th>{% endfor %}
-                <th></th>
+                {% for h in header %}
+                  {% set label = h %}
+                  {% if h == 'Name of place' %}{% set label = 'Điểm đến' %}
+                  {% elif h == 'Country' %}{% set label = 'Quốc gia' %}
+                  {% elif h == 'Budget' %}{% set label = 'Ngân sách (VND)' %}
+                  {% elif h == 'Type of place' %}{% set label = 'Loại địa điểm' %}
+                  {% endif %}
+                  <th>{{ label }}</th>
+                {% endfor %}
+                <th class="text-end">Thao tác</th>
               </tr>
             </thead>
             <tbody>
               {% for r in rows %}
               <tr class="filter-row">
-                {% for cell in r %}<td>{{ cell }}</td>{% endfor %}
-                <td class="text-end"><a class="btn btn-outline-primary btn-sm" href="/admin/tourism?key={{ r[0] }}">Edit</a></td>
+                {% for cell in r %}
+                  {% set col = header[loop.index0] %}
+                  {% if col in ['Budget', 'Ngân sách'] %}
+                    {% if cell == '0.5' %}
+                      <td>Dưới 30.000.000 VND</td>
+                    {% elif cell == '1.5' %}
+                      <td>30–60 triệu VND</td>
+                    {% elif cell == '2.5' %}
+                      <td>Trên 60.000.000 VND</td>
+                    {% else %}
+                      <td>{{ cell }}</td>
+                    {% endif %}
+                  {% else %}
+                    <td>{{ cell }}</td>
+                  {% endif %}
+                {% endfor %}
+                <td class="text-end">
+                  <a class="btn btn-outline-primary btn-sm me-1" href="/admin/tourism?key={{ r[0] }}">Sửa</a>
+                  <form method="post" action="/admin/tourism/delete" class="d-inline" onsubmit="return confirm('Bạn có chắc muốn xóa dòng này?');">
+                    <input type="hidden" name="key" value="{{ r[0] }}">
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Xóa</button>
+                  </form>
+                </td>
               </tr>
               {% endfor %}
             </tbody>
@@ -43,11 +72,61 @@
         <form method="post" action="/admin/tourism" class="vstack gap-2">
           <input type="hidden" name="_original_key" value="{{ existing[header[0]] if existing else '' }}">
           {% for h in header %}
+          {% set label = h %}
+          {% if h == 'Name of place' %}{% set label = 'Điểm đến' %}
+          {% elif h == 'Country' %}{% set label = 'Quốc gia' %}
+          {% elif h == 'Budget' %}{% set label = 'Ngân sách' %}
+          {% elif h == 'Type of place' %}{% set label = 'Loại địa điểm' %}
+          {% endif %}
           <div>
-            <label class="form-label">{{ h }}</label>
-            <input class="form-control {% if loop.first %}fw-bold{% endif %}" name="{{ h }}" value="{{ existing[h] if existing and h in existing else '' }}" {% if loop.first and existing %}readonly{% endif %}>
-            {% if loop.first and existing %}
-            <div class="form-text">Không thể sửa khóa chính.</div>
+            <label class="form-label">{{ label }}</label>
+            {% if loop.first %}
+              {# Khóa chính: Name of place / Điểm đến #}
+              <input
+                class="form-control fw-bold"
+                name="{{ h }}"
+                value="{{ existing[h] if existing and h in existing else '' }}"
+                {% if existing %}readonly{% endif %}
+              >
+              {% if existing %}
+              <div class="form-text">Không thể sửa khóa chính.</div>
+              {% endif %}
+            {% elif h in ['Country', 'Quốc gia'] %}
+              <select class="form-select" name="{{ h }}">
+                <option value="">-- Chọn quốc gia --</option>
+                {% for c in countries %}
+                  {% set current = existing[h] if existing and h in existing else '' %}
+                  <option value="{{ c }}" {% if c == current %}selected{% endif %}>{{ c }}</option>
+                {% endfor %}
+              </select>
+            {% elif h in ['Budget', 'Ngân sách'] %}
+              <select class="form-select" name="{{ h }}">
+                {% set current = existing[h] if existing and h in existing else '' %}
+                <option value="">-- Chọn khoảng ngân sách --</option>
+                {% set options = [
+                  'Dưới 30.000.000 VND',
+                  '30–60 triệu VND',
+                  'Trên 60.000.000 VND'
+                ] %}
+                {% for opt in options %}
+                  <option value="{{ opt }}" {% if opt == current %}selected{% endif %}>{{ opt }}</option>
+                {% endfor %}
+              </select>
+            {% elif h in ['Type of place', 'Loại địa điểm'] %}
+              <input
+                type="text"
+                class="form-control"
+                name="{{ h }}"
+                value="{{ existing[h] if existing and h in existing else '' }}"
+                pattern="[A-Za-zÀ-ỹ\\s]+"
+                title="Chỉ nhập chữ và khoảng trắng."
+              >
+            {% else %}
+              <input
+                class="form-control"
+                name="{{ h }}"
+                value="{{ existing[h] if existing and h in existing else '' }}"
+              >
             {% endif %}
           </div>
           {% endfor %}

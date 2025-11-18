@@ -1,61 +1,165 @@
-Name of place,Country,Budget,Type of place
-Machu Picchu,Peru,2.5,Historical
-Tikal,Guatemala,2.5,Historical
-The Pyramids at Giza,Egypt,2.5,Historical
-Angkor Wat,Cambodia,2.5,Historical
-Petra,"Jordan",2.5,Historical
-Stonehenge,England,1.5,Historical
-The Colosseum and Forum,Italy,1.5,Historical
-The Parthenon,Greece,1.5,Historical
-Easter Island,Chile,1.5,Historical
-The Alhambra,California,1.5,Historical
-Taj Mahal,India,0.5,Historical
-The Great Wall of China,China,0.5,Historical
-Chichén Itzá,Mexico,0.5,Historical
-Volubilis,Morocco,0.5,Historical
-Sukhothai,Thailand,0.5,Historical
-Victoria Peak,Hong Kong,2.5,Hill Station
-Mount Mogan,China,2.5,Hill Station
-Alaska,USA,2.5,Hill Station
-Arizona,USA,2.5,Hill Station
-Geneva,Europe,2.5,Hill Station
-Zurich,Europe,1.5,Hill Station
-Cape Town,Africa,1.5,Hill Station
-Aspen,USA,1.5,Hill Station
-Da Lat,Vietnam,1.5,Hill Station
-Cooktown,Australia,1.5,Hill Station
-Shimla,India,0.5,Hill Station
-Ooty,India,0.5,Hill Station
-Darjeeling and Gangtok,India,0.5,Hill Station
-Bandarban,Banladesh,0.5,Hill Station
-Pyin U Lwin,Burma,0.5,Hill Station
-Arabian Desert,UAE,2.5,Desert
-Mundulea Reserve,"Namibia,Afica",2.5,Desert
-Sahara Desert,Egypt,2.5,Desert
-The Central Kalahari Game Reserve,Africa,2.5,Desert
-Black Rock Desert,USA,2.5,Desert
-Wahiba sands,Oman,1.5,Desert
-The Central Kalahari Game Reserve,Africa,1.5,Desert
-Maasai Mara,Kenya,1.5,Desert
-Duba,Africa,1.5,Desert
-Ruaha National Park,Tanzania,1.5,Desert
-Thar Desert,India,0.5,Desert
-Northern Kenya,Kenya,0.5,Desert
-Duba,Africa,0.5,Desert
-Gorillas,Rwanda,0.5,Desert
-Ruaha National Park,Tanzania,0.5,Desert
-El Nido,Philippines,2.5,Beach
-Honokalani Beach,HI,2.5,Beach
-Pansy Island,Mozambique,2.5,Beach
-Anse Lazio,Seychelles,2.5,Beach
-Honopu Beach,HI,2.5,Beach
-Sunset Beach,HI,1.5,Beach
-Ipanema Beach,Brazil,1.5,Beach
-Blue Beach,Puerto Rico,1.5,Beach
-Praia Mole,Brazil,1.5,Beach
-Waipio Valley Beach,HI,1.5,Beach
-Matira Beach,French Polynesia,0.5,Beach
-Long Beach,Thailand,0.5,Beach
-Puka Beach,Philippines,0.5,Beach
-Horseshoe Bay,Bermuda,0.5,Beach
-Temae and Teavora,French Polynesia,0.5,Beach
+Điểm đến,Quốc gia,Ngân sách,Loại địa điểm
+Machu Picchu,Peru,Trên 60.000.000,Lịch sử
+Tikal,Guatemala,Trên 60.000.000,Lịch sử
+The Pyramids at Giza,Egypt,Trên 60.000.000,Lịch sử
+Angkor Wat,Cambodia,Trên 60.000.000,Lịch sử
+Petra,Jordan,Trên 60.000.000,Lịch sử
+Stonehenge,England (UK),30–60 triệu,Lịch sử
+The Colosseum and Forum,Italy,30–60 triệu,Lịch sử
+The Parthenon,Greece,30–60 triệu,Lịch sử
+Easter Island,Chile,30–60 triệu,Lịch sử
+The Alhambra,Spain,30–60 triệu,Lịch sử
+Taj Mahal,India,Dưới 30.000.000,Lịch sử
+The Great Wall of China,China,Dưới 30.000.000,Lịch sử
+Chichén Itzá,Mexico,Dưới 30.000.000,Lịch sử
+Volubilis,Morocco,Dưới 30.000.000,Lịch sử
+Sukhothai,Thailand,Dưới 30.000.000,Lịch sử
+Victoria Peak,Hong Kong,Trên 60.000.000,Núi đồi
+Mount Mogan,China,Trên 60.000.000,Núi đồi
+Alaska,USA (us),Trên 60.000.000,Núi đồi
+Arizona,USA (us),Trên 60.000.000,Núi đồi
+Geneva,Europe (Thụy Sĩ),Trên 60.000.000,Núi đồi
+Zurich,Europe (Thụy Sĩ),30–60 triệu,Núi đồi
+Cape Town,Africa (South Africa),30–60 triệu,Núi đồi
+Aspen,USA (us),30–60 triệu,Núi đồi
+Da Lat,Vietnam,30–60 triệu,Núi đồi
+Cooktown,Australia,30–60 triệu,Núi đồi
+Shimla,India,Dưới 30.000.000,Núi đồi
+Ooty,India,Dưới 30.000.000,Núi đồi
+Darjeeling and Gangtok,India,Dưới 30.000.000,Núi đồi
+Bandarban,Banladesh (Bangladesh),Dưới 30.000.000,Núi đồi
+Pyin U Lwin,Burma,Dưới 30.000.000,Núi đồi
+Arabian Desert,UAE (ae),Trên 60.000.000,Sa mạc
+Mundulea Reserve,"Namibia, Afica (wa)",Trên 60.000.000,Sa mạc
+Sahara Desert,Egypt,Trên 60.000.000,Sa mạc
+The Central Kalahari Game Reserve,Africa (Botswana),Trên 60.000.000,Sa mạc
+Black Rock Desert,USA (us),Trên 60.000.000,Sa mạc
+Wahiba sands,Oman,30–60 triệu,Sa mạc
+The Central Kalahari Game Reserve,Africa (Botswana),30–60 triệu,Sa mạc
+Maasai Mara,Kenya,30–60 triệu,Sa mạc
+Duba,Africa (Botswana),30–60 triệu,Sa mạc
+Ruaha National Park,Tanzania,30–60 triệu,Sa mạc
+Thar Desert,India,Dưới 30.000.000,Sa mạc
+Northern Kenya,Kenya,Dưới 30.000.000,Sa mạc
+Duba,Africa (Botswana),Dưới 30.000.000,Sa mạc
+Gorillas,Rwanda,Dưới 30.000.000,Sa mạc
+Ruaha National Park,Tanzania,Dưới 30.000.000,Sa mạc
+El Nido,Philippines (rp),Trên 60.000.000,Biển
+Honokalani Beach,HI (USA),Trên 60.000.000,Biển
+Pansy Island,Mozambique,Trên 60.000.000,Biển
+Anse Lazio,Seychelles,Trên 60.000.000,Biển
+Honopu Beach,HI (USA),Trên 60.000.000,Biển
+Sunset Beach,HI (USA),30–60 triệu,Biển
+Ipanema Beach,Brazil,30–60 triệu,Biển
+Blue Beach,Puerto Rico (rq),30–60 triệu,Biển
+Praia Mole,Brazil,30–60 triệu,Biển
+Waipio Valley Beach,HI (USA),30–60 triệu,Biển
+Matira Beach,French Polynesia,Dưới 30.000.000,Biển
+Long Beach,Thailand,Dưới 30.000.000,Biển
+Puka Beach,Philippines (rp),Dưới 30.000.000,Biển
+Horseshoe Bay,Bermuda,Dưới 30.000.000,Biển
+Temae and Teavora,French Polynesia,Dưới 30.000.000,Biển
+Nhà hát Opera Sydney,Australia,Trên 60.000.000,Lịch sử
+Rạn san hô Great Barrier,Australia,Trên 60.000.000,Biển
+Uluru (Ayers Rock),Australia,Trên 60.000.000,Sa mạc
+Vườn quốc gia Kakadu,Australia,30–60 triệu,Núi đồi
+Tháp Eiffel,France,30–60 triệu,Lịch sử
+Bảo tàng Louvre,France,30–60 triệu,Lịch sử
+Cung điện Versailles,France,30–60 triệu,Lịch sử
+French Riviera (Côte d'Azur),France,Trên 60.000.000,Biển
+Mont Saint-Michel,France,30–60 triệu,Lịch sử
+Vườn quốc gia Banff,Canada,Trên 60.000.000,Núi đồi
+Thác Niagara (phía Canada),Canada,30–60 triệu,Núi đồi
+Phố cổ Québec,Canada,30–60 triệu,Lịch sử
+Đảo Vancouver,Canada,30–60 triệu,Biển
+Cổng Brandenburg,Germany,30–60 triệu,Lịch sử
+Lâu đài Neuschwanstein,Germany,30–60 triệu,Lịch sử
+Rừng Đen (Black Forest),Germany,30–60 triệu,Núi đồi
+Núi Phú Sĩ,Japan,Trên 60.000.000,Núi đồi
+Đền Kinkakuji (Chùa Vàng),Japan,30–60 triệu,Lịch sử
+Rừng tre Arashiyama,Japan,30–60 triệu,Lịch sử
+Quần đảo Okinawa,Japan,30–60 triệu,Biển
+Đền Fushimi Inari,Japan,30–60 triệu,Lịch sử
+Kênh đào Venice,Italy,30–60 triệu,Lịch sử
+Tháp nghiêng Pisa,Italy,30–60 triệu,Lịch sử
+Bờ biển Amalfi,Italy,Trên 60.000.000,Biển
+Đấu trường Verona,Italy,30–60 triệu,Lịch sử
+Tháp London,UK,30–60 triệu,Lịch sử
+Cung điện Buckingham,UK,30–60 triệu,Lịch sử
+Vùng cao nguyên Scotland,UK,30–60 triệu,Núi đồi
+Bảo tàng Anh,UK,30–60 triệu,Lịch sử
+Giant's Causeway,UK (Northern Ireland),30–60 triệu,Núi đồi
+Đảo Santorini,Greece,Trên 60.000.000,Biển
+Đảo Mykonos,Greece,Trên 60.000.000,Biển
+Khu khảo cổ Delphi,Greece,30–60 triệu,Lịch sử
+Meteora,Greece,30–60 triệu,Lịch sử
+Quảng trường Đỏ (Moscow),Russia,30–60 triệu,Lịch sử
+Cung điện Mùa đông (Hermitage),Russia,30–60 triệu,Lịch sử
+Hồ Baikal,Russia,Trên 60.000.000,Núi đồi
+Vườn Keukenhof,Netherlands,30–60 triệu,Lịch sử
+Bảo tàng Rijksmuseum,Netherlands,30–60 triệu,Lịch sử
+Ngôi nhà Anne Frank,Netherlands,30–60 triệu,Lịch sử
+Cung điện Schönbrunn (Vienna),Austria,30–60 triệu,Lịch sử
+Làng Hallstatt,Austria,30–60 triệu,Núi đồi
+Dãy Alps (Innsbruck),Austria,Trên 60.000.000,Núi đồi
+Tháp Belém (Lisbon),Portugal,30–60 triệu,Lịch sử
+Bờ biển Algarve,Portugal,30–60 triệu,Biển
+Cung điện Pena (Sintra),Portugal,30–60 triệu,Lịch sử
+Vách đá Moher,Ireland,30–60 triệu,Núi đồi
+Vòng xoay Kerry (Ring of Kerry),Ireland,30–60 triệu,Núi đồi
+Guinness Storehouse,Ireland,30–60 triệu,Lịch sử
+Vườn quốc gia Killarney,Ireland,30–60 triệu,Núi đồi
+The Burren,Ireland,30–60 triệu,Núi đồi
+Newgrange,Ireland,30–60 triệu,Lịch sử
+Vịnh Hạ Long,Vietnam,Dưới 30.000.000,Biển
+Phố cổ Hội An,Vietnam,Dưới 30.000.000,Lịch sử
+Đồng bằng sông Cửu Long,Vietnam,Dưới 30.000.000,Lịch sử
+Quần đảo Lofoten,Norway,Trên 60.000.000,Biển
+Vịnh hẹp Geirangerfjord,Norway,Trên 60.000.000,Núi đồi
+Pulpit Rock (Preikestolen),Norway,Trên 60.000.000,Núi đồi
+Tromso (Bắc Cực quang),Norway,Trên 60.000.000,Núi đồi
+Trolltunga,Norway,Trên 60.000.000,Núi đồi
+Bergen (Phố cổ Bryggen),Norway,Trên 60.000.000,Lịch sử
+Svalbard,Norway,Trên 60.000.000,Núi đồi
+Milford Sound,New Zealand,Trên 60.000.000,Núi đồi
+Làng Hobbiton,New Zealand,30–60 triệu,Lịch sử
+Queenstown,New Zealand,Trên 60.000.000,Núi đồi
+Đảo Bali,Indonesia,Dưới 30.000.000,Biển
+Đền Borobudur,Indonesia,Dưới 30.000.000,Lịch sử
+Quần đảo Komodo,Indonesia,30–60 triệu,Biển
+Tháp đôi Petronas,Malaysia,Dưới 30.000.000,Lịch sử
+Đảo Langkawi,Malaysia,Dưới 30.000.000,Biển
+Động Batu,Malaysia,Dưới 30.000.000,Lịch sử
+Gardens by the Bay,Singapore,30–60 triệu,Lịch sử
+Đảo Sentosa,Singapore,30–60 triệu,Biển
+Cappadocia,Turkey,30–60 triệu,Núi đồi
+Hagia Sophia (Istanbul),Turkey,30–60 triệu,Lịch sử
+Pamukkale,Turkey,30–60 triệu,Núi đồi
+Thác Iguazu,Argentina,Trên 60.000.000,Núi đồi
+Sông băng Perito Moreno,Argentina,Trên 60.000.000,Núi đồi
+Buenos Aires,Argentina,30–60 triệu,Lịch sử
+Vùng rượu vang Mendoza,Argentina,30–60 triệu,Lịch sử
+Ushuaia (Tierra del Fuego),Argentina,Trên 60.000.000,Núi đồi
+Bariloche (Lake District),Argentina,Trên 60.000.000,Núi đồi
+Bán đảo Valdes,Argentina,Trên 60.000.000,Biển
+Vườn quốc gia Kruger,South Africa,Trên 60.000.000,Sa mạc
+Núi Bàn (Table Mountain),South Africa,30–60 triệu,Núi đồi
+Đảo Robben,South Africa,30–60 triệu,Lịch sử
+Vùng Cape Winelands,South Africa,30–60 triệu,Núi đồi
+Hẻm núi Blyde River,South Africa,30–60 triệu,Núi đồi
+Garden Route,South Africa,30–60 triệu,Núi đồi
+Lucerne,Switzerland,Trên 60.000.000,Núi đồi
+Interlaken,Switzerland,Trên 60.000.000,Núi đồi
+Lâu đài Chillon,Switzerland,30–60 triệu,Lịch sử
+Phố cổ Bern,Switzerland,30–60 triệu,Lịch sử
+Tulum,Mexico,30–60 triệu,Biển
+Cancun,Mexico,30–60 triệu,Biển
+Playa del Carmen,Mexico,30–60 triệu,Biển
+Isla Holbox,Mexico,30–60 triệu,Biển
+Laguna Bacalar,Mexico,Dưới 30.000.000,Biển
+Sa mạc Trắng (White Desert),Egypt,30–60 triệu,Sa mạc
+Ốc đảo Siwa,Egypt,30–60 triệu,Sa mạc
+Thung lũng các vị Vua,Egypt,30–60 triệu,Lịch sử
+Đền Luxor,Egypt,30–60 triệu,Lịch sử
+Đền Abu Simbel,Egypt,30–60 triệu,Lịch sử
+Biển Đỏ (Sharm El Sheikh),Egypt,30–60 triệu,Biển

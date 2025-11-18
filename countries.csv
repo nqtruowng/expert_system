@@ -1,40 +1,267 @@
-Country,Type of Government,Field Domain,Major Religion,GDP,Population Density,Average weather,Import,Export,Trade type,,,
-United States,Democracy,Technology,Christianity,"18,561.93",84,cold,"2,380.00","1,504",Import,,,
-China,Communist,Manufacturing,Atheist,"11,391.62",142,moderate,"1,960.00","17,779",Export,,,
-Japan,Monarchy,Technology,Buddhism,"4,730.30",339,cold,811.9,622,Import,,,
-Germany,Republic,Manufacturing,Christianity,"3,494.90",235,cold,"1,319.00","1,309",Import,,,
-United Kingdom,Monarchy,Infrastructure,Christianity,"2,649.89",650,cold,625.7,436,Import,,,
-France,Republic,Manufacturing,Christianity,"2,488.28",100,cold,634,510,Import,,,
-India,Democracy,Tourism,Hinduism,"2,250.99",386,hot,380.6,262,Import,,,
-Italy,Republic,Tourism,Christianity,"1,852.50",197,moderate,448.3,450,Export,,,
-Brazil,Republic,Manufacturing,Christianity,"1,769.60",22,hot,241.9,191,Export,,,
-Canada,Democracy,Infrastructure,Christianity,"1,532.34",3,cold,206.5,411,Export,,,
-South Korea,Republic,Technology,Atheist,"1,404.38",195,moderate,542.9,548,Export,,,
-Russia,Federal,Manufacturing,Christianity,"1,267.75",22,cold,323.9,337,Export,,,
-Australia,Democracy,Manufacturing,Christianity,"1,256.64",2,hot,245.9,184,Export,,,
-Spain,Monarchy,Technology,Christianity,"1,252.16",210,moderate,337.9,283,Import,,,
-Mexico,Democracy,Tourism,Christianity,"1,063.61",57,moderate,218.9,380,Import,,,
-Indonesia,Democracy,Technology,Buddhism,940.953,130,moderate,178.6,152,Import,,,
-Netherlands,Monarchy,"manufacturing",Atheist,769.93,491,cold,488.8,476,Import,,,
-Turkey,Democracy,Manufacturing,Islam,735.716,237,moderate,242.9,153,Export,,,
-Switzerland,republic,Manufacturing,Christianity,662.483,490,cold,333.8,290,Export,,,
-Saudi Arabia,Monarchy,Infrastructure,Islam,637.785,33,hot,147,284,Export,,,
-Argentina,republic,Manufacturing,Christianity,541.748,14,hot,65.56,65,Export,,,
-Taiwan Province of China,Democracy,Technology,Buddhism,519.149,1849,moderate,277.5,280,Export,,,
-Sweden,Democracy,Tourism,Atheist,517.44,57,cold,158,151,Export,,,
-Belgium,Democracy,Tourism,Buddhism,470.179,343,cold,340.2,398,Import,,,
-Poland,Monarchy,Manufacturing,Buddhism,467.35,328,cold,207.4,190,Import,,,
-Nigeria,republic,Infrastructure,Islam,415.08,151,moderate,54.6,50,Import,,,
-Islamic Republic of Iran,republic,Infrastructure,Christianity,412.304,40,moderate,66.97,78,Import,,,
-Thailand,Monarchy,Tourism,Buddhism,390.592,327,moderate,219,214,Import,,,
-Austria,republic,Manufacturing,Atheist,387.299,99,cold,167.9,141,Export,,,
-United Arab Emirates,Monarchy,Tourism,Islam,375.022,81,hot,271.7,323,Import,,,
-Mongolia,Republic,Manufacturing,Buddhism,320.12,2,cold,48.784,47,Import,,,
-Kazakhstan,Monarchy,Tourism,Islam,290.45,7,moderate,32.874,32,Export,,,
-Pakistan,Republic,Infrastructure,Islam,271.05,78,hot,112.32,48,Export,,,
-Namibia,Democracy,Manufacturing,Christianity,275.68,5,hot,54.654,87,Import,,,
-Mauritius,Democracy,Infrastructure,Hinduism,245.98,54,hot,87.12,92,Export,,,
-Sierra leone,Democracy,Infrastructure,Islam,240.58,97,hot,23.45,70,Export,,,
-Vatican City,Monarchy,Technology,Christianity,110.8,2,hot,45,105.66,Export,,,
-Singapore,Republic,Manufacturing,Buddhism,296.642,61,hot,124.56,93.54,Import,,,
-Singapore,republic,Manufacturing,Hinduism,296.642,61,hot,124.56,93.54,Import,,,
+Quốc gia,Hình thức chính phủ,Lĩnh vực,Tôn giáo chính,GDP,Mật độ dân số,Khí hậu trung bình,Nhập khẩu,Xuất khẩu,Loại thương mại
+United States,Dân chủ,Công nghệ,Thiên chúa giáo,"18,561.93",84,lạnh,"2,380.00","1,504",Nhập khẩu
+China,Cộng sản,Sản xuất,Vô thần,"11,391.62",142,ôn hòa,"1,960.00","17,779",Xuất khẩu
+Japan,Quân chủ,Công nghệ,Phật giáo,"4,730.30",339,lạnh,811.9,622,Nhập khẩu
+Germany,Cộng hòa,Sản xuất,Thiên chúa giáo,"3,494.90",235,lạnh,"1,319.00","1,309",Nhập khẩu
+United Kingdom,Quân chủ,Hạ tầng,Thiên chúa giáo,"2,649.89",650,lạnh,625.7,436,Nhập khẩu
+France,Cộng hòa,Sản xuất,Thiên chúa giáo,"2,488.28",100,lạnh,634,510,Nhập khẩu
+India,Dân chủ,Du lịch,Ấn Độ giáo,"2,250.99",386,nóng,380.6,262,Nhập khẩu
+Italy,Cộng hòa,Du lịch,Thiên chúa giáo,"1,852.50",197,ôn hòa,448.3,450,Xuất khẩu
+Brazil,Cộng hòa,Sản xuất,Thiên chúa giáo,"1,769.60",22,nóng,241.9,191,Xuất khẩu
+Canada,Dân chủ,Hạ tầng,Thiên chúa giáo,"1,532.34",3,lạnh,206.5,411,Xuất khẩu
+South Korea,Cộng hòa,Công nghệ,Vô thần,"1,404.38",195,ôn hòa,542.9,548,Xuất khẩu
+Russia,Liên bang,Sản xuất,Thiên chúa giáo,"1,267.75",22,lạnh,323.9,337,Xuất khẩu
+Australia,Dân chủ,Sản xuất,Thiên chúa giáo,"1,256.64",2,nóng,245.9,184,Xuất khẩu
+Spain,Quân chủ,Công nghệ,Thiên chúa giáo,"1,252.16",210,ôn hòa,337.9,283,Nhập khẩu
+Mexico,Dân chủ,Du lịch,Thiên chúa giáo,"1,063.61",57,ôn hòa,218.9,380,Nhập khẩu
+Indonesia,Dân chủ,Công nghệ,Phật giáo,940.953,130,ôn hòa,178.6,152,Nhập khẩu
+Netherlands,Quân chủ,Sản xuất,Vô thần,769.93,491,lạnh,488.8,476,Nhập khẩu
+Turkey,Dân chủ,Sản xuất,Hồi giáo,735.716,237,ôn hòa,242.9,153,Xuất khẩu
+Switzerland,Cộng hòa,Sản xuất,Thiên chúa giáo,662.483,490,lạnh,333.8,290,Xuất khẩu
+Saudi Arabia,Quân chủ,Hạ tầng,Hồi giáo,637.785,33,nóng,147,284,Xuất khẩu
+Argentina,Cộng hòa,Sản xuất,Thiên chúa giáo,541.748,14,nóng,65.56,65,Xuất khẩu
+Taiwan Province of China,Dân chủ,Công nghệ,Phật giáo,519.149,1849,ôn hòa,277.5,280,Xuất khẩu
+Sweden,Dân chủ,Du lịch,Vô thần,517.44,57,lạnh,158,151,Xuất khẩu
+Belgium,Dân chủ,Du lịch,Phật giáo,470.179,343,lạnh,340.2,398,Nhập khẩu
+Poland,Quân chủ,Sản xuất,Phật giáo,467.35,328,lạnh,207.4,190,Nhập khẩu
+Nigeria,Cộng hòa,Hạ tầng,Hồi giáo,415.08,151,ôn hòa,54.6,50,Nhập khẩu
+Islamic Republic of Iran,Cộng hòa,Hạ tầng,Thiên chúa giáo,412.304,40,ôn hòa,66.97,78,Nhập khẩu
+Thailand,Quân chủ,Du lịch,Phật giáo,390.592,327,ôn hòa,219,214,Nhập khẩu
+Austria,Cộng hòa,Sản xuất,Vô thần,387.299,99,lạnh,167.9,141,Xuất khẩu
+United Arab Emirates,Quân chủ,Du lịch,Hồi giáo,375.022,81,nóng,271.7,323,Nhập khẩu
+Mongolia,Cộng hòa,Sản xuất,Phật giáo,320.12,2,lạnh,48.784,47,Nhập khẩu
+Kazakhstan,Quân chủ,Du lịch,Hồi giáo,290.45,7,ôn hòa,32.874,32,Xuất khẩu
+Pakistan,Cộng hòa,Hạ tầng,Hồi giáo,271.05,78,nóng,112.32,48,Xuất khẩu
+Namibia,Dân chủ,Sản xuất,Thiên chúa giáo,275.68,5,nóng,54.654,87,Nhập khẩu
+Mauritius,Dân chủ,Hạ tầng,Ấn Độ giáo,245.98,54,nóng,87.12,92,Xuất khẩu
+Sierra leone,Dân chủ,Hạ tầng,Hồi giáo,240.58,97,nóng,23.45,70,Xuất khẩu
+Vatican City,Quân chủ,Công nghệ,Thiên chúa giáo,110.8,2,nóng,45,105.66,Xuất khẩu
+Singapore,Cộng hòa,Sản xuất,Phật giáo,296.642,61,nóng,124.56,93.54,Nhập khẩu
+Singapore,Cộng hòa,Sản xuất,Ấn Độ giáo,296.642,61,nóng,124.56,93.54,Nhập khẩu
+Afghanistan,Liên bang,Hạ tầng,Ấn Độ giáo,690.937,1207,nóng,393.68,997.72,Nhập khẩu
+Akrotiri,Đảng trị,Công nghệ,Phật giáo,1524.213,136,lạnh,526.72,667.2,Nhập khẩu
+Albania,Liên bang,Hạ tầng,Hồi giáo,2368.867,1003,ôn hòa,386.73,587.47,Xuất khẩu
+Algeria,Dân chủ,Hạ tầng,Phật giáo,86.598,1424,nóng,152.27,184.55,Xuất khẩu
+American Samoa,Quân chủ,Hạ tầng,Thiên chúa giáo,1097.845,1272,nóng,827.34,212.13,Xuất khẩu
+Andorra,Liên bang,Nông nghiệp,Phật giáo,2094.18,1690,nóng,334.0,686.17,Xuất khẩu
+Angola,Đảng trị,Tài chính,Thiên chúa giáo,1452.99,530,nóng,279.72,871.87,Nhập khẩu
+Anguilla,Cộng hòa,Du lịch,Hồi giáo,2655.116,1638,lạnh,97.39,464.19,Xuất khẩu
+Antarctica,Cộng hòa,Hạ tầng,Hồi giáo,2373.735,1244,lạnh,875.12,431.89,Nhập khẩu
+Antigua and Barbuda,Cộng hòa,Hạ tầng,Hồi giáo,1061.836,1673,ôn hòa,148.21,249.72,Nhập khẩu
+Arctic Ocean,Cộng hòa,Sản xuất,Hồi giáo,1147.564,1434,nóng,696.52,216.81,Xuất khẩu
+Armenia,Quân chủ,Tài chính,Ấn Độ giáo,894.605,1694,ôn hòa,323.73,681.91,Xuất khẩu
+Aruba,Dân chủ,Sản xuất,Phật giáo,1867.727,647,ôn hòa,36.97,589.82,Nhập khẩu
+Ashmore and Cartier Islands,Liên bang,Công nghệ,Vô thần,567.793,1417,nóng,644.82,965.59,Nhập khẩu
+Atlantic Ocean,Quân chủ,Du lịch,Thiên chúa giáo,364.771,1351,ôn hòa,41.69,665.6,Xuất khẩu
+Azerbaijan,Liên bang,Nông nghiệp,Hồi giáo,2481.691,1024,nóng,629.16,785.06,Xuất khẩu
+"Bahamas, The",Cộng hòa,Hạ tầng,Hồi giáo,68.611,958,nóng,497.09,393.24,Xuất khẩu
+Bahrain,Quân chủ,Du lịch,Ấn Độ giáo,66.778,252,ôn hòa,592.66,535.21,Xuất khẩu
+Bangladesh,Cộng hòa,Công nghệ,Phật giáo,1598.397,1938,lạnh,261.48,390.54,Nhập khẩu
+Barbados,Quân chủ,Công nghệ,Vô thần,494.576,494,nóng,418.05,893.38,Nhập khẩu
+Belarus,Đảng trị,Hạ tầng,Hồi giáo,1579.558,282,lạnh,352.04,903.99,Xuất khẩu
+Belize,Dân chủ,Nông nghiệp,Ấn Độ giáo,1062.765,1411,nóng,434.38,978.51,Nhập khẩu
+Benin,Cộng hòa,Nông nghiệp,Thiên chúa giáo,2709.222,906,ôn hòa,414.89,171.02,Xuất khẩu
+Bermuda,Đảng trị,Hạ tầng,Phật giáo,2529.549,203,ôn hòa,710.53,846.43,Nhập khẩu
+Bhutan,Liên bang,Tài chính,Hồi giáo,613.778,321,ôn hòa,479.78,605.72,Nhập khẩu
+Bolivia,Cộng hòa,Công nghệ,Phật giáo,893.741,1345,ôn hòa,429.31,342.35,Nhập khẩu
+Bosnia and Herzegovina,Quân chủ,Du lịch,Vô thần,1626.836,1182,lạnh,242.02,698.82,Xuất khẩu
+Botswana,Dân chủ,Hạ tầng,Ấn Độ giáo,2487.903,1478,lạnh,185.08,401.45,Nhập khẩu
+Bouvet Island,Cộng hòa,Tài chính,Vô thần,1088.266,440,ôn hòa,340.28,211.02,Xuất khẩu
+British Indian Ocean Territory,Cộng hòa,Sản xuất,Phật giáo,2992.814,429,lạnh,224.76,997.33,Nhập khẩu
+British Virgin Islands,Liên bang,Công nghệ,Ấn Độ giáo,95.413,617,lạnh,806.74,405.36,Xuất khẩu
+Brunei,Liên bang,Sản xuất,Thiên chúa giáo,2804.066,155,lạnh,459.55,454.29,Nhập khẩu
+Bulgaria,Đảng trị,Công nghệ,Phật giáo,687.545,1080,lạnh,309.56,558.22,Xuất khẩu
+Burkina Faso,Đảng trị,Du lịch,Phật giáo,1333.35,1978,lạnh,829.31,944.28,Nhập khẩu
+Burma,Dân chủ,Du lịch,Hồi giáo,957.697,1776,nóng,35.18,739.97,Nhập khẩu
+Burundi,Liên bang,Hạ tầng,Hồi giáo,569.128,1413,nóng,907.44,91.15,Xuất khẩu
+Cambodia,Đảng trị,Công nghệ,Phật giáo,203.75,1005,nóng,375.82,681.12,Nhập khẩu
+Cameroon,Đảng trị,Hạ tầng,Phật giáo,586.953,786,lạnh,886.04,647.23,Nhập khẩu
+Cape Verde,Liên bang,Công nghệ,Phật giáo,2315.428,138,lạnh,117.73,551.24,Xuất khẩu
+Cayman Islands,Cộng hòa,Hạ tầng,Hồi giáo,1196.067,1375,nóng,724.43,701.28,Nhập khẩu
+Central African Republic,Dân chủ,Công nghệ,Phật giáo,2955.344,100,ôn hòa,769.58,314.56,Xuất khẩu
+Chad,Cộng hòa,Công nghệ,Thiên chúa giáo,2261.15,1938,ôn hòa,722.47,490.48,Xuất khẩu
+Chile,Quân chủ,Hạ tầng,Vô thần,1296.689,1791,lạnh,579.21,776.55,Nhập khẩu
+Christmas Island,Cộng hòa,Tài chính,Phật giáo,2326.613,1454,ôn hòa,503.59,602.89,Nhập khẩu
+Clipperton Island,Cộng hòa,Du lịch,Hồi giáo,951.307,999,ôn hòa,908.06,575.67,Xuất khẩu
+Cocos (Keeling) Islands,Đảng trị,Tài chính,Vô thần,2986.078,120,ôn hòa,928.37,559.38,Xuất khẩu
+Colombia,Dân chủ,Tài chính,Hồi giáo,2111.102,1405,nóng,889.86,735.5,Xuất khẩu
+Comoros,Dân chủ,Du lịch,Phật giáo,2677.153,55,nóng,572.81,199.97,Xuất khẩu
+"Congo, Democratic Republic of the",Cộng hòa,Nông nghiệp,Phật giáo,51.574,1394,lạnh,804.92,997.97,Xuất khẩu
+"Congo, Republic of the",Quân chủ,Công nghệ,Thiên chúa giáo,1111.302,1209,lạnh,696.12,456.08,Nhập khẩu
+Cook Islands,Đảng trị,Hạ tầng,Vô thần,1539.332,427,nóng,784.54,550.48,Xuất khẩu
+Coral Sea Islands,Dân chủ,Công nghệ,Thiên chúa giáo,257.608,1451,lạnh,990.87,143.94,Nhập khẩu
+Costa Rica,Đảng trị,Du lịch,Phật giáo,2537.76,1295,ôn hòa,567.08,985.45,Xuất khẩu
+Cote d'Ivoire,Đảng trị,Công nghệ,Thiên chúa giáo,1250.93,1444,lạnh,765.32,947.1,Nhập khẩu
+Croatia,Quân chủ,Sản xuất,Phật giáo,1795.184,484,ôn hòa,29.96,991.81,Xuất khẩu
+Cuba,Liên bang,Nông nghiệp,Hồi giáo,1388.989,500,nóng,940.08,37.41,Xuất khẩu
+Curacao,Quân chủ,Du lịch,Thiên chúa giáo,1942.401,1438,lạnh,346.18,571.07,Nhập khẩu
+Cyprus,Đảng trị,Hạ tầng,Vô thần,396.895,707,nóng,828.44,806.66,Nhập khẩu
+Czech Republic,Liên bang,Sản xuất,Ấn Độ giáo,639.217,776,lạnh,399.26,140.81,Xuất khẩu
+Denmark,Quân chủ,Sản xuất,Phật giáo,1426.536,1757,ôn hòa,837.79,45.37,Nhập khẩu
+Dhekelia,Quân chủ,Sản xuất,Vô thần,1786.667,1094,lạnh,430.27,779.91,Nhập khẩu
+Djibouti,Dân chủ,Sản xuất,Ấn Độ giáo,504.658,964,nóng,28.52,635.51,Xuất khẩu
+Dominica,Dân chủ,Sản xuất,Thiên chúa giáo,1213.821,23,lạnh,98.31,137.67,Xuất khẩu
+Dominican Republic,Dân chủ,Hạ tầng,Ấn Độ giáo,2154.866,1500,nóng,341.73,652.01,Nhập khẩu
+Ecuador,Cộng hòa,Nông nghiệp,Vô thần,2341.479,1175,ôn hòa,703.3,366.68,Nhập khẩu
+Egypt,Cộng hòa,Du lịch,Hồi giáo,2809.219,599,ôn hòa,710.98,770.45,Xuất khẩu
+El Salvador,Đảng trị,Sản xuất,Phật giáo,2634.351,213,lạnh,24.7,506.93,Nhập khẩu
+Equatorial Guinea,Dân chủ,Nông nghiệp,Vô thần,2249.681,205,ôn hòa,721.75,489.12,Xuất khẩu
+Eritrea,Cộng hòa,Hạ tầng,Vô thần,2546.469,557,lạnh,533.11,516.49,Nhập khẩu
+Estonia,Cộng hòa,Hạ tầng,Thiên chúa giáo,1700.492,980,nóng,345.22,615.11,Nhập khẩu
+Ethiopia,Đảng trị,Hạ tầng,Phật giáo,1163.756,1921,ôn hòa,368.41,477.54,Nhập khẩu
+Falkland Islands (Islas Malvinas),Liên bang,Tài chính,Phật giáo,1603.137,1022,ôn hòa,682.97,564.79,Xuất khẩu
+Faroe Islands,Dân chủ,Hạ tầng,Ấn Độ giáo,1493.133,863,lạnh,157.02,560.16,Nhập khẩu
+Fiji,Liên bang,Sản xuất,Phật giáo,2400.944,1115,nóng,995.66,928.11,Nhập khẩu
+Finland,Quân chủ,Du lịch,Ấn Độ giáo,2745.528,1427,lạnh,959.0,564.15,Nhập khẩu
+French Polynesia,Dân chủ,Tài chính,Ấn Độ giáo,1861.869,480,ôn hòa,405.37,504.75,Xuất khẩu
+French Southern and Antarctic Lands,Dân chủ,Hạ tầng,Vô thần,376.342,195,nóng,819.74,437.09,Xuất khẩu
+Gabon,Cộng hòa,Công nghệ,Vô thần,2088.845,7,ôn hòa,676.06,923.45,Xuất khẩu
+"Gambia, The",Cộng hòa,Công nghệ,Ấn Độ giáo,355.669,1061,ôn hòa,975.94,284.7,Xuất khẩu
+Gaza Strip,Cộng hòa,Công nghệ,Ấn Độ giáo,360.601,1749,lạnh,801.82,563.73,Xuất khẩu
+Georgia,Liên bang,Du lịch,Ấn Độ giáo,32.836,1482,lạnh,842.93,199.39,Xuất khẩu
+Ghana,Liên bang,Tài chính,Vô thần,1497.41,1164,ôn hòa,368.69,667.47,Xuất khẩu
+Gibraltar,Liên bang,Công nghệ,Phật giáo,586.125,678,ôn hòa,632.13,135.97,Nhập khẩu
+Greece,Dân chủ,Du lịch,Thiên chúa giáo,106.782,1596,lạnh,569.56,277.94,Xuất khẩu
+Greenland,Cộng hòa,Công nghệ,Phật giáo,853.507,271,nóng,804.29,103.0,Nhập khẩu
+Grenada,Liên bang,Nông nghiệp,Phật giáo,1504.153,1097,lạnh,737.52,73.98,Nhập khẩu
+Guam,Đảng trị,Sản xuất,Phật giáo,2935.919,1469,ôn hòa,749.57,823.62,Nhập khẩu
+Guatemala,Liên bang,Tài chính,Hồi giáo,35.788,1400,ôn hòa,276.28,435.47,Xuất khẩu
+Guernsey,Đảng trị,Tài chính,Vô thần,1128.022,1471,lạnh,838.13,119.85,Xuất khẩu
+Guinea,Cộng hòa,Nông nghiệp,Phật giáo,2984.582,252,nóng,544.69,985.52,Xuất khẩu
+Guinea-Bissau,Quân chủ,Sản xuất,Ấn Độ giáo,334.106,1883,nóng,340.79,87.04,Nhập khẩu
+Guyana,Quân chủ,Tài chính,Hồi giáo,2017.878,983,lạnh,75.87,177.55,Xuất khẩu
+Haiti,Liên bang,Du lịch,Thiên chúa giáo,2497.526,1350,nóng,554.78,624.32,Nhập khẩu
+Heard Island and McDonald Islands,Liên bang,Công nghệ,Thiên chúa giáo,468.109,1978,ôn hòa,656.26,339.64,Xuất khẩu
+Holy See (Vatican City),Đảng trị,Công nghệ,Thiên chúa giáo,2859.669,1199,nóng,444.02,133.36,Xuất khẩu
+Honduras,Dân chủ,Sản xuất,Ấn Độ giáo,872.278,751,lạnh,377.01,475.65,Xuất khẩu
+Hong Kong,Cộng hòa,Nông nghiệp,Phật giáo,2206.145,227,ôn hòa,779.68,436.56,Nhập khẩu
+Hungary,Đảng trị,Tài chính,Vô thần,81.771,1646,lạnh,986.19,344.94,Nhập khẩu
+Iceland,Liên bang,Nông nghiệp,Ấn Độ giáo,805.228,342,nóng,226.06,647.37,Xuất khẩu
+Indian Ocean,Quân chủ,Tài chính,Vô thần,184.765,697,ôn hòa,687.9,767.46,Nhập khẩu
+Iran,Liên bang,Công nghệ,Vô thần,1690.043,57,nóng,405.47,69.61,Nhập khẩu
+Iraq,Liên bang,Hạ tầng,Vô thần,2262.108,1635,ôn hòa,260.98,275.44,Nhập khẩu
+Ireland,Quân chủ,Nông nghiệp,Thiên chúa giáo,1607.839,1256,lạnh,227.31,877.14,Xuất khẩu
+Isle of Man,Dân chủ,Du lịch,Vô thần,268.898,1183,nóng,934.67,515.97,Xuất khẩu
+Israel,Quân chủ,Sản xuất,Ấn Độ giáo,2893.535,1582,lạnh,361.04,701.6,Xuất khẩu
+Jamaica,Đảng trị,Công nghệ,Ấn Độ giáo,2773.917,349,ôn hòa,423.7,964.01,Xuất khẩu
+Jan Mayen,Liên bang,Sản xuất,Phật giáo,2070.195,903,ôn hòa,749.35,45.86,Xuất khẩu
+Jersey,Dân chủ,Hạ tầng,Hồi giáo,2373.295,1347,nóng,283.76,853.31,Xuất khẩu
+Jordan,Cộng hòa,Sản xuất,Phật giáo,131.89,776,nóng,634.74,293.21,Xuất khẩu
+Kenya,Cộng hòa,Tài chính,Hồi giáo,23.751,1446,lạnh,558.31,995.64,Xuất khẩu
+Kiribati,Dân chủ,Tài chính,Phật giáo,2405.872,52,lạnh,544.48,619.42,Nhập khẩu
+"Korea, North",Quân chủ,Sản xuất,Vô thần,1626.908,1887,lạnh,103.35,979.07,Nhập khẩu
+"Korea, South",Cộng hòa,Sản xuất,Phật giáo,669.618,385,nóng,981.45,704.37,Nhập khẩu
+Kosovo,Quân chủ,Tài chính,Vô thần,1671.257,510,nóng,607.83,56.25,Nhập khẩu
+Kuwait,Cộng hòa,Nông nghiệp,Vô thần,2219.686,361,ôn hòa,62.26,528.32,Nhập khẩu
+Kyrgyzstan,Đảng trị,Tài chính,Ấn Độ giáo,2755.881,1979,ôn hòa,223.53,451.21,Xuất khẩu
+Laos,Dân chủ,Nông nghiệp,Phật giáo,297.989,626,ôn hòa,347.38,614.65,Nhập khẩu
+Latvia,Cộng hòa,Công nghệ,Hồi giáo,2468.196,1348,lạnh,913.9,626.56,Xuất khẩu
+Lebanon,Quân chủ,Nông nghiệp,Phật giáo,2857.991,1746,nóng,502.14,350.02,Xuất khẩu
+Lesotho,Dân chủ,Nông nghiệp,Hồi giáo,1471.831,870,lạnh,573.25,436.06,Xuất khẩu
+Liberia,Cộng hòa,Hạ tầng,Hồi giáo,2317.487,1622,ôn hòa,345.63,234.33,Xuất khẩu
+Libya,Quân chủ,Tài chính,Hồi giáo,2908.3,1127,lạnh,339.33,88.1,Xuất khẩu
+Liechtenstein,Liên bang,Nông nghiệp,Phật giáo,1670.908,1527,ôn hòa,454.75,76.43,Nhập khẩu
+Lithuania,Liên bang,Nông nghiệp,Vô thần,224.613,847,nóng,999.16,324.25,Nhập khẩu
+Luxembourg,Quân chủ,Tài chính,Phật giáo,1284.403,877,nóng,669.34,291.28,Nhập khẩu
+Macau,Cộng hòa,Du lịch,Phật giáo,224.018,408,nóng,533.34,542.4,Nhập khẩu
+Macedonia,Dân chủ,Sản xuất,Thiên chúa giáo,2562.621,968,nóng,569.72,847.71,Nhập khẩu
+Madagascar,Quân chủ,Công nghệ,Phật giáo,1748.158,1234,lạnh,808.91,935.79,Nhập khẩu
+Malawi,Dân chủ,Sản xuất,Hồi giáo,2666.804,1289,lạnh,502.23,187.47,Xuất khẩu
+Malaysia,Đảng trị,Hạ tầng,Vô thần,2275.109,361,lạnh,998.8,85.0,Nhập khẩu
+Maldives,Dân chủ,Hạ tầng,Phật giáo,2455.037,75,ôn hòa,292.93,705.74,Nhập khẩu
+Mali,Dân chủ,Nông nghiệp,Phật giáo,158.564,804,lạnh,127.14,367.89,Xuất khẩu
+Malta,Cộng hòa,Du lịch,Thiên chúa giáo,1331.07,1154,nóng,464.87,146.87,Nhập khẩu
+Marshall Islands,Liên bang,Nông nghiệp,Hồi giáo,2259.576,1442,lạnh,724.61,432.39,Xuất khẩu
+Mauritania,Đảng trị,Du lịch,Phật giáo,1373.629,1849,lạnh,869.22,731.68,Xuất khẩu
+"Micronesia, Federated States of",Cộng hòa,Công nghệ,Hồi giáo,2166.261,1570,lạnh,279.88,977.21,Nhập khẩu
+Moldova,Đảng trị,Sản xuất,Thiên chúa giáo,2704.224,1811,lạnh,929.21,929.75,Nhập khẩu
+Monaco,Cộng hòa,Tài chính,Vô thần,567.35,123,nóng,54.87,910.33,Nhập khẩu
+Montenegro,Cộng hòa,Du lịch,Hồi giáo,175.167,1954,nóng,548.27,265.39,Xuất khẩu
+Montserrat,Đảng trị,Nông nghiệp,Hồi giáo,711.928,1492,lạnh,531.93,906.09,Nhập khẩu
+Morocco,Liên bang,Sản xuất,Thiên chúa giáo,2144.335,1309,lạnh,571.99,728.82,Xuất khẩu
+Mozambique,Liên bang,Sản xuất,Vô thần,723.318,966,nóng,502.65,840.4,Nhập khẩu
+Nauru,Cộng hòa,Sản xuất,Vô thần,2064.884,1811,lạnh,359.23,300.22,Xuất khẩu
+Navassa Island,Đảng trị,Tài chính,Ấn Độ giáo,1242.813,134,nóng,581.16,726.99,Nhập khẩu
+Nepal,Cộng hòa,Sản xuất,Ấn Độ giáo,630.21,873,nóng,917.61,141.23,Nhập khẩu
+New Caledonia,Đảng trị,Sản xuất,Phật giáo,1633.866,1386,ôn hòa,85.89,632.75,Nhập khẩu
+New Zealand,Dân chủ,Hạ tầng,Thiên chúa giáo,86.919,1123,nóng,570.31,783.6,Xuất khẩu
+Nicaragua,Quân chủ,Sản xuất,Phật giáo,862.754,301,lạnh,331.04,668.06,Xuất khẩu
+Niger,Cộng hòa,Nông nghiệp,Thiên chúa giáo,1850.611,904,lạnh,724.87,413.02,Nhập khẩu
+Niue,Dân chủ,Du lịch,Thiên chúa giáo,1081.26,1907,nóng,644.25,911.84,Xuất khẩu
+Norfolk Island,Đảng trị,Công nghệ,Phật giáo,304.097,1326,ôn hòa,764.59,886.0,Xuất khẩu
+Northern Mariana Islands,Liên bang,Du lịch,Phật giáo,174.422,757,nóng,453.44,330.69,Xuất khẩu
+Norway,Đảng trị,Nông nghiệp,Phật giáo,2243.509,1209,lạnh,916.74,147.2,Xuất khẩu
+Oman,Dân chủ,Nông nghiệp,Thiên chúa giáo,2764.195,203,nóng,991.82,94.71,Nhập khẩu
+Pacific Ocean,Đảng trị,Hạ tầng,Vô thần,1054.31,447,ôn hòa,192.97,42.48,Xuất khẩu
+Palau,Đảng trị,Hạ tầng,Vô thần,2779.789,1141,nóng,545.38,637.38,Xuất khẩu
+Panama,Dân chủ,Công nghệ,Hồi giáo,864.355,1388,nóng,701.47,744.88,Xuất khẩu
+Papua New Guinea,Dân chủ,Sản xuất,Phật giáo,2702.722,1567,lạnh,292.65,23.38,Nhập khẩu
+Paracel Islands,Đảng trị,Nông nghiệp,Phật giáo,2718.591,349,nóng,776.43,938.91,Nhập khẩu
+Paraguay,Đảng trị,Công nghệ,Phật giáo,107.85,715,lạnh,954.96,366.96,Nhập khẩu
+Peru,Liên bang,Hạ tầng,Phật giáo,874.778,574,ôn hòa,316.01,656.21,Nhập khẩu
+Philippines,Đảng trị,Sản xuất,Phật giáo,2052.423,1129,ôn hòa,433.29,609.23,Xuất khẩu
+Pitcairn Islands,Quân chủ,Nông nghiệp,Ấn Độ giáo,2713.746,1703,nóng,239.99,302.32,Nhập khẩu
+Portugal,Đảng trị,Tài chính,Hồi giáo,717.033,1592,ôn hòa,280.83,531.28,Nhập khẩu
+Puerto Rico,Liên bang,Hạ tầng,Phật giáo,2145.898,1915,ôn hòa,284.1,228.55,Nhập khẩu
+Qatar,Liên bang,Công nghệ,Ấn Độ giáo,505.446,903,nóng,782.56,20.42,Nhập khẩu
+Romania,Dân chủ,Hạ tầng,Hồi giáo,1442.149,998,lạnh,596.27,503.27,Xuất khẩu
+Rwanda,Cộng hòa,Công nghệ,Ấn Độ giáo,1767.309,1157,lạnh,461.28,408.5,Xuất khẩu
+Saint Barthelemy,Liên bang,Du lịch,Thiên chúa giáo,865.606,495,nóng,348.43,765.93,Nhập khẩu
+"Saint Helena, Ascension, and Tristan da Cunha",Quân chủ,Du lịch,Phật giáo,2462.366,541,ôn hòa,710.8,155.53,Xuất khẩu
+Saint Kitts and Nevis,Quân chủ,Công nghệ,Vô thần,2452.613,461,nóng,318.16,224.11,Xuất khẩu
+Saint Lucia,Liên bang,Du lịch,Phật giáo,2578.097,978,lạnh,565.23,436.74,Xuất khẩu
+Saint Martin,Quân chủ,Tài chính,Hồi giáo,2071.834,189,ôn hòa,190.76,71.29,Xuất khẩu
+Saint Pierre and Miquelon,Liên bang,Sản xuất,Ấn Độ giáo,1388.148,1750,lạnh,705.6,634.23,Xuất khẩu
+Saint Vincent and the Grenadines,Liên bang,Sản xuất,Phật giáo,846.092,1920,ôn hòa,480.91,195.14,Xuất khẩu
+Samoa,Liên bang,Công nghệ,Vô thần,2906.986,1792,nóng,901.2,436.19,Nhập khẩu
+San Marino,Dân chủ,Công nghệ,Phật giáo,663.963,726,lạnh,428.09,761.38,Xuất khẩu
+Sao Tome and Principe,Quân chủ,Nông nghiệp,Vô thần,1951.881,1405,nóng,73.83,392.46,Nhập khẩu
+Senegal,Cộng hòa,Du lịch,Hồi giáo,22.265,1596,lạnh,82.71,181.63,Nhập khẩu
+Serbia,Cộng hòa,Công nghệ,Thiên chúa giáo,1695.632,1895,lạnh,849.8,24.38,Xuất khẩu
+Seychelles,Cộng hòa,Sản xuất,Ấn Độ giáo,2247.061,718,lạnh,322.33,811.25,Xuất khẩu
+Sierra Leone,Quân chủ,Hạ tầng,Phật giáo,579.03,709,ôn hòa,72.19,825.67,Nhập khẩu
+Sint Maarten,Dân chủ,Sản xuất,Hồi giáo,1419.746,1787,nóng,811.77,954.96,Xuất khẩu
+Slovakia,Quân chủ,Sản xuất,Phật giáo,575.55,624,lạnh,678.71,825.77,Nhập khẩu
+Slovenia,Quân chủ,Du lịch,Vô thần,2274.456,1614,nóng,137.26,849.0,Xuất khẩu
+Solomon Islands,Cộng hòa,Hạ tầng,Ấn Độ giáo,1788.928,809,lạnh,424.09,852.5,Nhập khẩu
+Somalia,Quân chủ,Sản xuất,Phật giáo,2761.923,174,nóng,512.44,647.64,Xuất khẩu
+South Africa,Dân chủ,Sản xuất,Vô thần,1883.604,1299,lạnh,643.31,815.79,Xuất khẩu
+South Georgia and South Sandwich Islands,Quân chủ,Tài chính,Vô thần,323.64,1920,lạnh,809.48,217.22,Xuất khẩu
+Southern Ocean,Dân chủ,Du lịch,Ấn Độ giáo,717.258,1526,ôn hòa,683.76,817.89,Xuất khẩu
+South Sudan,Dân chủ,Nông nghiệp,Ấn Độ giáo,2228.095,1815,lạnh,581.07,903.34,Nhập khẩu
+Spratly Islands,Liên bang,Tài chính,Hồi giáo,467.142,867,lạnh,28.01,334.57,Xuất khẩu
+Sri Lanka,Đảng trị,Sản xuất,Vô thần,2421.614,8,ôn hòa,97.56,540.52,Nhập khẩu
+Sudan,Liên bang,Sản xuất,Vô thần,2219.054,1148,lạnh,419.08,297.83,Nhập khẩu
+Suriname,Liên bang,Tài chính,Ấn Độ giáo,1129.93,1310,nóng,265.16,510.98,Nhập khẩu
+Svalbard,Đảng trị,Công nghệ,Phật giáo,775.971,287,nóng,225.41,192.24,Nhập khẩu
+Swaziland,Quân chủ,Công nghệ,Ấn Độ giáo,307.667,1720,lạnh,543.45,456.81,Nhập khẩu
+Syria,Đảng trị,Nông nghiệp,Vô thần,2712.848,1736,nóng,624.39,624.73,Nhập khẩu
+Taiwan,Cộng hòa,Hạ tầng,Vô thần,2612.657,1436,nóng,147.51,176.8,Xuất khẩu
+Tajikistan,Dân chủ,Hạ tầng,Vô thần,135.859,1832,lạnh,278.83,140.04,Nhập khẩu
+Tanzania,Dân chủ,Công nghệ,Phật giáo,361.534,1698,lạnh,335.2,199.84,Nhập khẩu
+Timor-Leste,Dân chủ,Hạ tầng,Ấn Độ giáo,988.266,865,nóng,266.82,624.44,Nhập khẩu
+Togo,Đảng trị,Công nghệ,Vô thần,2502.399,1124,nóng,343.78,322.45,Xuất khẩu
+Tokelau,Dân chủ,Sản xuất,Ấn Độ giáo,2390.266,426,lạnh,468.85,422.7,Xuất khẩu
+Tonga,Cộng hòa,Tài chính,Ấn Độ giáo,2127.369,1353,lạnh,539.41,118.45,Xuất khẩu
+Trinidad and Tobago,Quân chủ,Hạ tầng,Ấn Độ giáo,1423.377,820,ôn hòa,153.38,305.74,Xuất khẩu
+Tunisia,Quân chủ,Du lịch,Phật giáo,1625.091,966,nóng,230.71,527.94,Xuất khẩu
+Turkmenistan,Cộng hòa,Du lịch,Vô thần,322.461,1336,lạnh,460.09,839.18,Xuất khẩu
+Turks and Caicos Islands,Đảng trị,Hạ tầng,Phật giáo,1664.088,1553,ôn hòa,207.3,33.42,Xuất khẩu
+Tuvalu,Dân chủ,Hạ tầng,Hồi giáo,2775.033,849,lạnh,27.83,862.66,Nhập khẩu
+Uganda,Cộng hòa,Hạ tầng,Hồi giáo,2690.14,1268,nóng,870.62,507.94,Nhập khẩu
+Ukraine,Liên bang,Du lịch,Phật giáo,1210.65,803,nóng,729.87,938.53,Xuất khẩu
+United States Pacific Island Wildlife Refuges,Liên bang,Du lịch,Thiên chúa giáo,1421.982,1631,nóng,305.8,70.22,Xuất khẩu
+Uruguay,Liên bang,Nông nghiệp,Hồi giáo,2018.318,1598,ôn hòa,897.15,950.6,Xuất khẩu
+Uzbekistan,Đảng trị,Du lịch,Ấn Độ giáo,809.435,67,lạnh,745.68,797.55,Xuất khẩu
+Vanuatu,Cộng hòa,Sản xuất,Vô thần,40.886,1750,lạnh,223.67,224.36,Nhập khẩu
+Venezuela,Quân chủ,Sản xuất,Thiên chúa giáo,909.149,726,lạnh,423.7,594.88,Nhập khẩu
+Vietnam,Cộng hòa,Công nghệ,Thiên chúa giáo,525.427,1494,ôn hòa,903.67,894.88,Nhập khẩu
+Virgin Islands,Đảng trị,Tài chính,Hồi giáo,1917.52,962,nóng,868.34,523.33,Xuất khẩu
+Wake Island,Dân chủ,Tài chính,Hồi giáo,1005.64,696,nóng,905.89,786.21,Xuất khẩu
+Wallis and Futuna,Cộng hòa,Tài chính,Phật giáo,2323.581,1936,lạnh,139.78,378.12,Nhập khẩu
+West Bank,Đảng trị,Nông nghiệp,Hồi giáo,1446.135,1033,ôn hòa,137.94,577.64,Nhập khẩu
+Western Sahara,Đảng trị,Du lịch,Ấn Độ giáo,367.593,1419,lạnh,198.09,774.14,Xuất khẩu
+Yemen,Cộng hòa,Công nghệ,Vô thần,1889.59,1271,lạnh,241.48,217.38,Xuất khẩu
+Zambia,Cộng hòa,Nông nghiệp,Hồi giáo,2441.127,1043,nóng,715.83,344.06,Nhập khẩu
+Zimbabwe,Quân chủ,Nông nghiệp,Hồi giáo,33.829,1141,nóng,738.82,779.3,Xuất khẩu
+European Union,Liên bang,Sản xuất,Thiên chúa giáo,1184.87,1011,nóng,76.07,608.77,Xuất khẩu

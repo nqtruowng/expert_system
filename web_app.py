@@ -178,6 +178,59 @@ def get_field(info: Dict[str, str], en: str, vi: str) -> str:
     return info.get(en) or info.get(vi) or ""
 
 
+def describe_country(name: str, info: Dict[str, str]) -> str:
+    """Tạo câu mô tả ngắn gọn về một quốc gia dựa trên dữ liệu CSV."""
+    gov_en = normalize_government(get_field(info, "type of government", "hình thức chính phủ"))
+    field_en = normalize_field(get_field(info, "field domain", "lĩnh vực"))
+    rel_en = normalize_religion(get_field(info, "major religion", "tôn giáo chính"))
+    climate_en = normalize_climate(get_field(info, "average weather", "khí hậu trung bình"))
+
+    gov = GOV_MAP.get(gov_en, gov_en or "không rõ")
+    field = FIELD_MAP.get(field_en, field_en or "không rõ")
+    rel = RELIGION_MAP.get(rel_en, rel_en or "không rõ")
+    climate = CLIMATE_MAP.get(climate_en, climate_en or "không rõ")
+
+    density = get_field(info, "population density", "mật độ dân số")
+    gdp = get_field(info, "gdp", "gdp")
+
+    parts: List[str] = []
+    if gov:
+        parts.append(f"hình thức chính phủ {gov}")
+    if field:
+        parts.append(f"thế mạnh về lĩnh vực {field}")
+    if rel:
+        parts.append(f"tôn giáo chính là {rel}")
+    if climate:
+        parts.append(f"khí hậu trung bình {climate}")
+    if density:
+        parts.append(f"mật độ dân số khoảng {density} người/km²")
+    if gdp:
+        parts.append(f"GDP khoảng {gdp} tỷ USD")
+
+    detail = "; ".join(parts) if parts else "thông tin chi tiết đang được cập nhật"
+    return f"Với các điều kiện mà bạn chọn thì nơi phù hợp sẽ là {name}. Quốc gia này có {detail}."
+
+
+def describe_place(place: str, info: Dict[str, str], target_budget: float, selected_type: str | None) -> str:
+    """Tạo câu mô tả ngắn gọn về một điểm đến du lịch."""
+    country = get_field(info, "country", "quốc gia") or "một quốc gia phù hợp"
+    budget_val = target_budget
+    if budget_val == 0.5:
+        label = "dưới 30.000.000 VND"
+    elif budget_val == 1.5:
+        label = "khoảng 30–60 triệu VND"
+    else:
+        label = "trên 60.000.000 VND"
+
+    place_type_en = normalize_place_type(get_field(info, "type of place", "loại địa điểm") or selected_type)
+    place_type_vi = PLACE_MAP.get(place_type_en, place_type_en or "điểm tham quan")
+
+    return (
+        f"Với ngân sách {label} cho mỗi người và mong muốn trải nghiệm kiểu địa điểm {place_type_vi}, "
+        f"điểm đến phù hợp là {place} tại {country}."
+    )
+
+
 # ----------------------
 # Data loading utilities
 # ----------------------
@@ -337,7 +390,7 @@ def write_csv_file(path: str, header: List[str], rows: List[List[str]]) -> None:
 
 
 # Enforce login for all non-exempt routes
-EXEMPT_PATHS = {"/login"}
+EXEMPT_PATHS = {"/login", "/register"}
 
 
 @app.before_request
@@ -374,6 +427,45 @@ def do_login():
     session["user"] = username
     session["role"] = user["role"]
     next_url = request.args.get("next") or url_for("home")
+    return redirect(next_url)
+
+
+@app.get("/register")
+def register():
+    return render_template("register.html")
+
+
+@app.post("/register")
+def do_register():
+    username = (request.form.get("username") or "").strip()
+    password = request.form.get("password") or ""
+    password2 = request.form.get("password2") or ""
+
+    if not username or not password:
+        flash("Vui lòng nhập đầy đủ tài khoản và mật khẩu.")
+        return redirect(url_for("register", next=request.args.get("next")))
+
+    if password != password2:
+        flash("Mật khẩu nhập lại không khớp.")
+        return redirect(url_for("register", next=request.args.get("next")))
+
+    # Kiểm tra trùng tài khoản (không phân biệt hoa thường)
+    existing_usernames = {u.lower() for u in USERS.keys()}
+    if username.lower() in existing_usernames:
+        flash("Tài khoản đã tồn tại, vui lòng chọn tên khác.")
+        return redirect(url_for("register", next=request.args.get("next")))
+
+    # Tạo tài khoản mới với quyền 'user'
+    USERS[username] = {
+        "password_hash": generate_password_hash(password),
+        "role": "user",
+    }
+
+    # Đăng nhập luôn sau khi đăng ký thành công
+    session["user"] = username
+    session["role"] = "user"
+    next_url = request.args.get("next") or url_for("home")
+    flash("Đăng ký tài khoản thành công.")
     return redirect(next_url)
 
 
@@ -436,75 +528,175 @@ def do_search():
 
 @app.get("/expert")
 def expert_page():
-    return render_template("expert.html", result=None, section=None)
+    return render_template(
+        "expert.html",
+        result=None,
+        section=None,
+        density=None,
+        climate=None,
+        government=None,
+        religion=None,
+        mode=None,
+        trade=None,
+        domain=None,
+        budget=None,
+        place_type=None,
+    )
 
 
 @app.post("/expert/live")
 def expert_live():
     details = load_country_details()
     density = request.form.get("density")  # not used in current filter
-    climate = normalize_climate(request.form.get("climate"))
-    government = normalize_government(request.form.get("government"))
-    religion = normalize_religion(request.form.get("religion"))
+    climate_raw = request.form.get("climate")
+    government_raw = request.form.get("government")
+    religion_raw = request.form.get("religion")
 
-    possible: List[str] = []
+    climate = normalize_climate(climate_raw)
+    government = normalize_government(government_raw)
+    religion = normalize_religion(religion_raw)
+
+    result: List[Dict[str, str]] = []
     for name, info in details.items():
-        info_climate = normalize_climate(get_field(info, "average weather", "khi hậu trung bình"))
+        info_climate = normalize_climate(get_field(info, "average weather", "khí hậu trung bình"))
         info_gov = normalize_government(get_field(info, "type of government", "hình thức chính phủ"))
         info_rel = normalize_religion(get_field(info, "major religion", "tôn giáo chính"))
         if info_climate == climate and info_gov == government and info_rel == religion:
-            possible.append(name)
+            result.append(
+                {
+                    "name": name,
+                    "summary": describe_country(name, info),
+                }
+            )
 
-    return render_template("expert.html", section="live", result=possible)
+    return render_template(
+        "expert.html",
+        section="live",
+        result=result,
+        density=density,
+        climate=climate_raw,
+        government=government_raw,
+        religion=religion_raw,
+        mode=None,
+        trade=None,
+        domain=None,
+        budget=None,
+        place_type=None,
+    )
 
 
 @app.post("/expert/work")
 def expert_work():
     details = load_country_details()
     mode = request.form.get("mode")  # business or job
-    domain = normalize_field(request.form.get("domain"))
-    result: List[str] = []
+    trade_raw = request.form.get("trade")
+    domain_raw = request.form.get("domain")
+    domain = normalize_field(domain_raw)
+    result: List[Dict[str, str]] = []
 
     if mode == "business":
-        trade = normalize_trade(request.form.get("trade"))  # import/export
+        trade = normalize_trade(trade_raw)  # import/export
         for name, info in details.items():
             info_trade = normalize_trade(get_field(info, "trade type", "loại thương mại"))
             info_field = normalize_field(get_field(info, "field domain", "lĩnh vực"))
             if info_trade == trade and info_field == domain:
-                result.append(name)
+                result.append(
+                    {
+                        "name": name,
+                        "summary": describe_country(name, info),
+                    }
+                )
     else:
         for name, info in details.items():
             info_field = normalize_field(get_field(info, "field domain", "lĩnh vực"))
             if info_field == domain:
-                result.append(name)
+                result.append(
+                    {
+                        "name": name,
+                        "summary": describe_country(name, info),
+                    }
+                )
 
-    return render_template("expert.html", section="work", result=result)
+    return render_template(
+        "expert.html",
+        section="work",
+        result=result,
+        density=None,
+        climate=None,
+        government=None,
+        religion=None,
+        mode=mode,
+        trade=trade_raw,
+        domain=domain_raw,
+        budget=None,
+        place_type=None,
+    )
 
 
 @app.post("/expert/travel")
 def expert_travel():
     tourism = load_tourism_data()
-    budget = request.form.get("budget")
+    budget_raw = request.form.get("budget") or ""
     place_type = request.form.get("place_type")
 
-    budget_map = {"vnd_under_30m": 0.5, "vnd_30_60m": 1.5, "vnd_above_60m": 2.5}
-    target = budget_map.get(budget)
+    # Chuyển số tiền VND người dùng nhập thành 3 khoảng ngân sách
+    amount = None
+    try:
+        amount = float(budget_raw.replace(",", "").strip())
+    except ValueError:
+        amount = None
 
-    result: List[str] = []
-    if target is not None:
+    bucket = None  # 'under' | 'mid' | 'over'
+    if amount is not None:
+        if amount < 30_000_000:
+            bucket = "under"
+        elif amount <= 60_000_000:
+            bucket = "mid"
+        else:
+            bucket = "over"
+
+    budget_label_map = {
+        "under": "Dưới 30.000.000",
+        "mid": "30–60 triệu",
+        "over": "Trên 60.000.000",
+    }
+    target_label_norm = _norm(budget_label_map.get(bucket))
+
+    result: List[Dict[str, str]] = []
+    if target_label_norm:
         for place, info in tourism.items():
             info_place = normalize_place_type(get_field(info, "type of place", "loại địa điểm"))
-            if info_place == normalize_place_type(place_type) and float(get_field(info, "budget", "ngân sách") or 0) == target:
-                # decorate with VND label
-                if target == 0.5:
-                    label = "Dưới 30.000.000 VND"
-                elif target == 1.5:
-                    label = "30–60 triệu VND"
-                else:
-                    label = "Trên 60.000.000 VND"
-                result.append(f"{place}, {get_field(info, 'country', 'quốc gia')} — ngân sách: {label}")
+            if info_place != normalize_place_type(place_type):
+                continue
 
-    return render_template("expert.html", section="travel", result=result)
+            raw_budget = get_field(info, "budget", "ngân sách")
+            if _norm(raw_budget) != target_label_norm:
+                continue
+
+            # Truyền giá trị số tượng trưng vào describe_place chỉ để chọn label hiển thị
+            numeric_hint = {"under": 0.5, "mid": 1.5, "over": 2.5}.get(bucket, 0.0)
+
+            result.append(
+                {
+                    "name": place,
+                    "summary": describe_place(place, info, numeric_hint, place_type),
+                }
+            )
+
+    return render_template(
+        "expert.html",
+        section="travel",
+        result=result,
+        density=None,
+        climate=None,
+        government=None,
+        religion=None,
+        mode=None,
+        trade=None,
+        domain=None,
+        budget=budget_raw,
+        place_type=place_type,
+    )
 
 
 # ----------------------
@@ -617,6 +809,7 @@ def admin_dashboard():
 @role_required("manager")
 def admin_countries():
     header, rows = read_csv_file("countries.csv")
+    countries_list = load_country_list()
     key = request.args.get("key")
     existing = None
     if key and header:
@@ -624,7 +817,36 @@ def admin_countries():
             if r and r[0].lower() == key.lower():
                 existing = dict(zip(header, r))
                 break
-    return render_template("admin_countries.html", header=header, rows=rows[:50], existing=existing)
+    return render_template(
+        "admin_countries.html",
+        header=header,
+        rows=rows,
+        existing=existing,
+        countries=countries_list,
+    )
+
+
+@app.post("/admin/countries/delete")
+@login_required
+@role_required("manager")
+def admin_countries_delete():
+    header, rows = read_csv_file("countries.csv")
+    if not header:
+        flash("countries.csv trống hoặc thiếu header.")
+        return redirect(url_for("admin_countries"))
+
+    key = (request.form.get("key") or "").strip()
+    if not key:
+        flash("Không xác định được dòng cần xóa.")
+        return redirect(url_for("admin_countries"))
+
+    new_rows = [r for r in rows if not (r and r[0].strip().lower() == key.lower())]
+    if len(new_rows) == len(rows):
+        flash(f"Không tìm thấy dòng có {header[0]} = '{key}'.")
+    else:
+        write_csv_file("countries.csv", header, new_rows)
+        flash(f"Đã xóa dòng có {header[0]} = '{key}'.")
+    return redirect(url_for("admin_countries"))
 
 
 @app.post("/admin/countries")
@@ -682,6 +904,7 @@ def admin_countries_save():
 @role_required("manager")
 def admin_tourism():
     header, rows = read_csv_file("Tourism.csv")
+    countries_list = load_country_list()
     key = request.args.get("key")
     existing = None
     if key and header:
@@ -689,7 +912,36 @@ def admin_tourism():
             if r and r[0].lower() == key.lower():
                 existing = dict(zip(header, r))
                 break
-    return render_template("admin_tourism.html", header=header, rows=rows[:50], existing=existing)
+    return render_template(
+        "admin_tourism.html",
+        header=header,
+        rows=rows,
+        existing=existing,
+        countries=countries_list,
+    )
+
+
+@app.post("/admin/tourism/delete")
+@login_required
+@role_required("manager")
+def admin_tourism_delete():
+    header, rows = read_csv_file("Tourism.csv")
+    if not header:
+        flash("Tourism.csv trống hoặc thiếu header.")
+        return redirect(url_for("admin_tourism"))
+
+    key = (request.form.get("key") or "").strip()
+    if not key:
+        flash("Không xác định được dòng cần xóa.")
+        return redirect(url_for("admin_tourism"))
+
+    new_rows = [r for r in rows if not (r and r[0].strip().lower() == key.lower())]
+    if len(new_rows) == len(rows):
+        flash(f"Không tìm thấy dòng có {header[0]} = '{key}'.")
+    else:
+        write_csv_file("Tourism.csv", header, new_rows)
+        flash(f"Đã xóa dòng có {header[0]} = '{key}'.")
+    return redirect(url_for("admin_tourism"))
 
 
 @app.post("/admin/tourism")

@@ -22,36 +22,36 @@
           <div>
             <label class="form-label">Mật độ dân số</label>
             <select name="density" class="form-select">
-              <option value="high">Cao</option>
-              <option value="low">Thấp</option>
+              <option value="high" {% if density == 'high' %}selected{% endif %}>Cao</option>
+              <option value="low" {% if density == 'low' %}selected{% endif %}>Thấp</option>
             </select>
           </div>
           <div>
             <label class="form-label">Khí hậu</label>
             <select name="climate" class="form-select">
-              <option value="cold">Lạnh</option>
-              <option value="moderate">Ôn hòa</option>
-              <option value="hot">Nóng</option>
+              <option value="cold" {% if climate == 'cold' %}selected{% endif %}>Lạnh</option>
+              <option value="moderate" {% if climate == 'moderate' %}selected{% endif %}>Ôn hòa</option>
+              <option value="hot" {% if climate == 'hot' %}selected{% endif %}>Nóng</option>
             </select>
           </div>
           <div>
             <label class="form-label">Hình thức chính phủ</label>
             <select name="government" class="form-select">
-              <option value="democracy">Dân chủ</option>
-              <option value="communist">Cộng sản</option>
-              <option value="monarchy">Quân chủ</option>
-              <option value="republic">Cộng hòa</option>
-              <option value="federal">Liên bang</option>
+              <option value="democracy" {% if government == 'democracy' %}selected{% endif %}>Dân chủ</option>
+              <option value="communist" {% if government == 'communist' %}selected{% endif %}>Cộng sản</option>
+              <option value="monarchy" {% if government == 'monarchy' %}selected{% endif %}>Quân chủ</option>
+              <option value="republic" {% if government == 'republic' %}selected{% endif %}>Cộng hòa</option>
+              <option value="federal" {% if government == 'federal' %}selected{% endif %}>Liên bang</option>
             </select>
           </div>
           <div>
             <label class="form-label">Tôn giáo</label>
             <select name="religion" class="form-select">
-              <option value="christianity">Thiên chúa giáo</option>
-              <option value="buddhism">Phật giáo</option>
-              <option value="hinduism">Ấn Độ giáo</option>
-              <option value="islam">Hồi giáo</option>
-              <option value="atheist">Vô thần</option>
+              <option value="christianity" {% if religion == 'christianity' %}selected{% endif %}>Thiên chúa giáo</option>
+              <option value="buddhism" {% if religion == 'buddhism' %}selected{% endif %}>Phật giáo</option>
+              <option value="hinduism" {% if religion == 'hinduism' %}selected{% endif %}>Ấn Độ giáo</option>
+              <option value="islam" {% if religion == 'islam' %}selected{% endif %}>Hồi giáo</option>
+              <option value="atheist" {% if religion == 'atheist' %}selected{% endif %}>Vô thần</option>
             </select>
           </div>
           <button type="submit" class="btn btn-primary mt-2">Gợi ý quốc gia</button>
@@ -60,8 +60,14 @@
         <hr>
         <h5>Kết quả</h5>
         {% if result %}
+          <p>Với các điều kiện mà bạn chọn thì những quốc gia phù hợp sẽ là:</p>
           <ul class="list-group">
-            {% for item in result %}<li class="list-group-item">{{ item|upper }}</li>{% endfor %}
+            {% for item in result %}
+              <li class="list-group-item">
+                <strong>{{ item.name|upper }}</strong><br>
+                <small class="text-muted">{{ item.summary }}</small>
+              </li>
+            {% endfor %}
           </ul>
         {% else %}
           <p class="mb-0">Không có kết quả phù hợp.</p>
@@ -74,24 +80,24 @@
           <div>
             <label class="form-label">Chế độ</label>
             <select name="mode" class="form-select">
-              <option value="business">Kinh doanh</option>
-              <option value="job">Làm công</option>
+              <option value="business" {% if mode == 'business' %}selected{% endif %}>Kinh doanh</option>
+              <option value="job" {% if mode == 'job' %}selected{% endif %}>Làm công</option>
             </select>
           </div>
           <div>
             <label class="form-label">Thương mại (cho kinh doanh)</label>
             <select name="trade" class="form-select">
-              <option value="import">Nhập khẩu</option>
-              <option value="export">Xuất khẩu</option>
+              <option value="import" {% if trade == 'import' %}selected{% endif %}>Nhập khẩu</option>
+              <option value="export" {% if trade == 'export' %}selected{% endif %}>Xuất khẩu</option>
             </select>
           </div>
           <div>
             <label class="form-label">Lĩnh vực</label>
             <select name="domain" class="form-select">
-              <option value="technology">Công nghệ</option>
-              <option value="manufacturing">Sản xuất</option>
-              <option value="tourism">Du lịch</option>
-              <option value="infrastructure">Hạ tầng</option>
+              <option value="technology" {% if domain == 'technology' %}selected{% endif %}>Công nghệ</option>
+              <option value="manufacturing" {% if domain == 'manufacturing' %}selected{% endif %}>Sản xuất</option>
+              <option value="tourism" {% if domain == 'tourism' %}selected{% endif %}>Du lịch</option>
+              <option value="infrastructure" {% if domain == 'infrastructure' %}selected{% endif %}>Hạ tầng</option>
             </select>
           </div>
           <button type="submit" class="btn btn-primary mt-2">Gợi ý quốc gia</button>
@@ -100,8 +106,14 @@
         <hr>
         <h5>Kết quả</h5>
         {% if result %}
+          <p>Với các điều kiện mà bạn chọn thì những quốc gia phù hợp để làm việc/kinh doanh sẽ là:</p>
           <ul class="list-group">
-            {% for item in result %}<li class="list-group-item">{{ item|upper }}</li>{% endfor %}
+            {% for item in result %}
+              <li class="list-group-item">
+                <strong>{{ item.name|upper }}</strong><br>
+                <small class="text-muted">{{ item.summary }}</small>
+              </li>
+            {% endfor %}
           </ul>
         {% else %}
           <p class="mb-0">Không có kết quả phù hợp.</p>
@@ -113,19 +125,24 @@
         <form method="post" action="/expert/travel" class="vstack gap-3 mt-3">
           <div>
             <label class="form-label">Ngân sách (mỗi người)</label>
-            <select name="budget" class="form-select">
-              <option value="vnd_under_30m">Dưới 30.000.000 VND</option>
-              <option value="vnd_30_60m">30–60 triệu VND</option>
-              <option value="vnd_above_60m">Trên 60.000.000 VND</option>
-            </select>
+            <input
+              type="number"
+              name="budget"
+              class="form-control"
+              min="0"
+              step="1000000"
+              placeholder="Ví dụ: 10000000"
+              value="{{ budget or '' }}"
+            >
+            <div class="form-text">Nhập số tiền VND. Ví dụ: 10000000 ≈ Dưới 30.000.000.</div>
           </div>
           <div>
             <label class="form-label">Loại địa điểm</label>
             <select name="place_type" class="form-select">
-              <option value="historical">Lịch sử</option>
-              <option value="hill station">Núi đồi</option>
-              <option value="desert">Sa mạc</option>
-              <option value="beach">Biển</option>
+              <option value="historical" {% if place_type == 'historical' %}selected{% endif %}>Lịch sử</option>
+              <option value="hill station" {% if place_type == 'hill station' %}selected{% endif %}>Núi đồi</option>
+              <option value="desert" {% if place_type == 'desert' %}selected{% endif %}>Sa mạc</option>
+              <option value="beach" {% if place_type == 'beach' %}selected{% endif %}>Biển</option>
             </select>
           </div>
           <button type="submit" class="btn btn-primary mt-2">Gợi ý địa điểm</button>
@@ -134,8 +151,14 @@
         <hr>
         <h5>Kết quả</h5>
         {% if result %}
+          <p>Với các điều kiện mà bạn chọn thì những điểm đến du lịch phù hợp sẽ là:</p>
           <ul class="list-group">
-            {% for item in result %}<li class="list-group-item">{{ item|upper }}</li>{% endfor %}
+            {% for item in result %}
+              <li class="list-group-item">
+                <strong>{{ item.name }}</strong><br>
+                <small class="text-muted">{{ item.summary }}</small>
+              </li>
+            {% endfor %}
           </ul>
         {% else %}
           <p class="mb-0">Không có kết quả phù hợp.</p>

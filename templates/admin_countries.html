@@ -1,31 +1,51 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="row g-4">
-  <div class="col-12 d-flex justify-content-between align-items-center">
+<div class="row g-4 admin-layout">
+  <div class="col-12 d-flex justify-content-between align-items-center admin-section-header">
     <h3 class="mb-0">Quản lý Countries (countries.csv)</h3>
     <a class="btn btn-outline-secondary" href="/admin">⟵ Bảng điều khiển</a>
   </div>
 
   <div class="col-12 col-lg-8">
-    <div class="card shadow-sm">
+    <div class="card shadow-sm admin-table-card">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-2">
-          <h5 class="card-title mb-0">Danh sách (50 dòng đầu)</h5>
+          <h5 class="card-title mb-0">Danh sách ({{ rows|length }} dòng)</h5>
           <input id="filterCountries" type="text" class="form-control w-auto" placeholder="Lọc...">
         </div>
-        <div class="table-responsive">
+        <div class="table-responsive admin-table-scroll">
           <table class="table table-sm table-striped align-middle" id="countriesTable">
             <thead>
               <tr>
-                {% for h in header %}<th>{{ h }}</th>{% endfor %}
-                <th></th>
+                {% for h in header %}
+                  {% set label = h %}
+                  {% if h == 'Country' %}{% set label = 'Quốc gia' %}
+                  {% elif h == 'Type of Government' %}{% set label = 'Hình thức chính phủ' %}
+                  {% elif h == 'Field Domain' %}{% set label = 'Lĩnh vực' %}
+                  {% elif h == 'Major Religion' %}{% set label = 'Tôn giáo chính' %}
+                  {% elif h == 'GDP' %}{% set label = 'GDP' %}
+                  {% elif h == 'Population Density' %}{% set label = 'Mật độ dân số' %}
+                  {% elif h == 'Average weather' %}{% set label = 'Khí hậu trung bình' %}
+                  {% elif h == 'Import' %}{% set label = 'Nhập khẩu' %}
+                  {% elif h == 'Export' %}{% set label = 'Xuất khẩu' %}
+                  {% elif h == 'Trade type' %}{% set label = 'Loại thương mại' %}
+                  {% endif %}
+                  <th>{{ label }}</th>
+                {% endfor %}
+                <th class="text-end">Thao tác</th>
               </tr>
             </thead>
             <tbody>
               {% for r in rows %}
               <tr class="filter-row">
                 {% for cell in r %}<td>{{ cell }}</td>{% endfor %}
-                <td class="text-end"><a class="btn btn-outline-primary btn-sm" href="/admin/countries?key={{ r[0] }}">Edit</a></td>
+                <td class="text-end">
+                  <a class="btn btn-outline-primary btn-sm me-1" href="/admin/countries?key={{ r[0] }}">Sửa</a>
+                  <form method="post" action="/admin/countries/delete" class="d-inline" onsubmit="return confirm('Bạn có chắc muốn xóa dòng này?');">
+                    <input type="hidden" name="key" value="{{ r[0] }}">
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Xóa</button>
+                  </form>
+                </td>
               </tr>
               {% endfor %}
             </tbody>
@@ -43,11 +63,63 @@
         <form method="post" action="/admin/countries" class="vstack gap-2">
           <input type="hidden" name="_original_key" value="{{ existing[header[0]] if existing else '' }}">
           {% for h in header %}
+          {% set label = h %}
+          {% if h == 'Country' %}{% set label = 'Quốc gia' %}
+          {% elif h == 'Type of Government' %}{% set label = 'Hình thức chính phủ' %}
+          {% elif h == 'Field Domain' %}{% set label = 'Lĩnh vực' %}
+          {% elif h == 'Major Religion' %}{% set label = 'Tôn giáo chính' %}
+          {% elif h == 'GDP' %}{% set label = 'GDP' %}
+          {% elif h == 'Population Density' %}{% set label = 'Mật độ dân số' %}
+          {% elif h == 'Average weather' %}{% set label = 'Khí hậu trung bình' %}
+          {% elif h == 'Import' %}{% set label = 'Nhập khẩu' %}
+          {% elif h == 'Export' %}{% set label = 'Xuất khẩu' %}
+          {% elif h == 'Trade type' %}{% set label = 'Loại thương mại' %}
+          {% endif %}
           <div>
-            <label class="form-label">{{ h }}</label>
-            <input class="form-control {% if loop.first %}fw-bold{% endif %}" name="{{ h }}" value="{{ existing[h] if existing and h in existing else '' }}" {% if loop.first and existing %}readonly{% endif %}>
-            {% if loop.first and existing %}
-            <div class="form-text">Không thể sửa khóa chính.</div>
+            <label class="form-label">{{ label }}</label>
+            {% if loop.first %}
+              {# Khóa chính: Country #}
+              <select class="form-select fw-bold" name="{{ h }}" {% if existing %}disabled{% endif %}>
+                <option value="">-- Chọn quốc gia --</option>
+                {% for c in countries %}
+                  {% set current = existing[h] if existing and h in existing else '' %}
+                  <option value="{{ c }}" {% if c.lower() == current.lower() %}selected{% endif %}>{{ c }}</option>
+                {% endfor %}
+              </select>
+              <div class="form-text">Khóa chính: không thể thay đổi sau khi đã tạo.</div>
+            {% elif h in ['Type of Government', 'Hình thức chính phủ'] %}
+              <select class="form-select" name="{{ h }}">
+                {% set current = existing[h] if existing and h in existing else '' %}
+                <option value="">-- Chọn hình thức chính phủ --</option>
+                {% set options = ['Dân chủ', 'Cộng sản', 'Quân chủ', 'Cộng hòa', 'Liên bang'] %}
+                {% for opt in options %}
+                <option value="{{ opt }}" {% if opt.lower() == current.lower() %}selected{% endif %}>{{ opt }}</option>
+                {% endfor %}
+              </select>
+            {% elif h in ['Field Domain', 'Lĩnh vực'] %}
+              <select class="form-select" name="{{ h }}">
+                {% set current = existing[h] if existing and h in existing else '' %}
+                <option value="">-- Chọn lĩnh vực --</option>
+                {% set options = ['Công nghệ', 'Sản xuất', 'Du lịch', 'Hạ tầng'] %}
+                {% for opt in options %}
+                <option value="{{ opt }}" {% if opt.lower() == current.lower() %}selected{% endif %}>{{ opt }}</option>
+                {% endfor %}
+              </select>
+            {% elif h in ['Trade type', 'Loại thương mại'] %}
+              <select class="form-select" name="{{ h }}">
+                {% set current = existing[h] if existing and h in existing else '' %}
+                <option value="">-- Chọn loại thương mại --</option>
+                {% set options = ['Nhập khẩu', 'Xuất khẩu'] %}
+                {% for opt in options %}
+                <option value="{{ opt }}" {% if opt.lower() == current.lower() %}selected{% endif %}>{{ opt }}</option>
+                {% endfor %}
+              </select>
+            {% else %}
+              <input
+                class="form-control"
+                name="{{ h }}"
+                value="{{ existing[h] if existing and h in existing else '' }}"
+              >
             {% endif %}
           </div>
           {% endfor %}

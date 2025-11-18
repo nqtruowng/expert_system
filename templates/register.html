@@ -4,8 +4,8 @@
   <div class="col-12 col-md-6 col-lg-4">
     <div class="card shadow-sm">
       <div class="card-body p-lg-4">
-        <h3 class="card-title mb-4 text-center">Đăng nhập</h3>
-        <form method="post" action="/login?next={{ request.args.get('next', '') }}" class="vstack gap-3">
+        <h3 class="card-title mb-4 text-center">Đăng ký tài khoản</h3>
+        <form method="post" action="/register?next={{ request.args.get('next', '') }}" class="vstack gap-3">
           <div>
             <label class="form-label" for="username">Tài khoản</label>
             <input class="form-control" id="username" name="username" required>
@@ -14,16 +14,20 @@
             <label class="form-label" for="password">Mật khẩu</label>
             <input class="form-control" type="password" id="password" name="password" required>
           </div>
-          <button type="submit" class="btn btn-primary w-100 py-2 mt-2">Đăng nhập</button>
+          <div>
+            <label class="form-label" for="password2">Nhập lại mật khẩu</label>
+            <input class="form-control" type="password" id="password2" name="password2" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100 py-2 mt-2">Đăng ký</button>
         </form>
         <div class="form-text mt-3 text-center">
-          Tài khoản demo: admin/admin123 (quản lý), user/user123 (người dùng)<br>
-          Chưa có tài khoản? <a href="/register{% if request.args.get('next') %}?next={{ request.args.get('next') }}{% endif %}">Đăng ký ngay</a>
+          Đã có tài khoản? <a href="/login{% if request.args.get('next') %}?next={{ request.args.get('next') }}{% endif %}">Đăng nhập</a>
         </div>
       </div>
     </div>
   </div>
 </div>
 {% endblock %}
+
 
 
