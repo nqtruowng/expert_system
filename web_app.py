@@ -58,12 +58,8 @@ def translate_en_vi(text: str | None) -> str:
         return text_norm
 
 
-# ----------------------
-# Cache đã dịch sẵn cho phần tra cứu (nếu có)
-# ----------------------
-
+# Cache đã dịch sẵn cho phần tra cứu (được tạo bởi script pretranslate_search.py)
 def _load_search_vi_cache() -> Dict[str, Dict[str, Dict[str, str]]]:
-    """Đọc file cache đã dịch sẵn (do script pretranslate_search.py tạo)."""
     path = "search_vi_cache.json"
     if not os.path.exists(path):
         return {}
@@ -80,18 +76,14 @@ def _load_search_vi_cache() -> Dict[str, Dict[str, Dict[str, str]]]:
 SEARCH_VI_CACHE: Dict[str, Dict[str, Dict[str, str]]] = _load_search_vi_cache()
 
 
+# Lấy tiêu đề và nội dung tiếng Việt cho một mục tra cứu (hoặc trả lại EN nếu thiếu cache)
 def get_vi_key_val(country_code: str, key_en: str, val_en: str) -> Tuple[str, str]:
-    """Lấy tiêu đề và nội dung tiếng Việt từ cache; nếu không có thì fallback về EN."""
     country = SEARCH_VI_CACHE.get(country_code.lower()) or {}
     entry = country.get(key_en) or {}
     key_vi = entry.get("key_vi") or key_en
     val_vi = entry.get("val_vi") or val_en
     return key_vi, val_vi
 
-
-# ----------------------
-# Auth (very simple demo)
-# ----------------------
 
 USERS = {
     # username: {password_hash, role}
@@ -107,6 +99,7 @@ USERS = {
 }
 
 
+# Decorator yêu cầu người dùng đã đăng nhập trước khi truy cập route
 def login_required(view_func):
     @wraps(view_func)
     def wrapper(*args, **kwargs):
@@ -118,6 +111,8 @@ def login_required(view_func):
 
 
 def role_required(required_role: str):
+    """Tạo decorator kiểm tra quyền (role) cho các route admin."""
+
     def decorator(view_func):
         @wraps(view_func)
         def wrapper(*args, **kwargs):
@@ -133,10 +128,7 @@ def role_required(required_role: str):
     return decorator
 
 
-# ----------------------
-# Localization helpers (EN <-> VI)
-# ----------------------
-
+# Chuẩn hóa chuỗi: cắt khoảng trắng 2 đầu và đưa về chữ thường
 def _norm(s: str | None) -> str:
     return (s or "").strip().lower()
 
@@ -189,15 +181,17 @@ PLACE_MAP = {
 PLACE_REV = {v: k for k, v in PLACE_MAP.items()}
 
 
+# Chuẩn hóa giá trị hình thức chính phủ, chấp nhận cả EN và VI
 def normalize_government(value: str | None) -> str:
     v = _norm(value)
-    if v in GOV_MAP:  # english
+    if v in GOV_MAP:
         return v
-    if v in GOV_REV:  # vietnamese
+    if v in GOV_REV:
         return GOV_REV[v]
     return v
 
 
+# Chuẩn hóa giá trị lĩnh vực kinh tế, chấp nhận cả EN và VI
 def normalize_field(value: str | None) -> str:
     v = _norm(value)
     if v in FIELD_MAP:
@@ -207,6 +201,7 @@ def normalize_field(value: str | None) -> str:
     return v
 
 
+# Chuẩn hóa giá trị tôn giáo chính, chấp nhận cả EN và VI
 def normalize_religion(value: str | None) -> str:
     v = _norm(value)
     if v in RELIGION_MAP:
@@ -216,6 +211,7 @@ def normalize_religion(value: str | None) -> str:
     return v
 
 
+# Chuẩn hóa giá trị khí hậu trung bình, chấp nhận cả EN và VI
 def normalize_climate(value: str | None) -> str:
     v = _norm(value)
     if v in CLIMATE_MAP:
@@ -225,6 +221,7 @@ def normalize_climate(value: str | None) -> str:
     return v
 
 
+# Chuẩn hóa loại thương mại (import/export), chấp nhận cả EN và VI
 def normalize_trade(value: str | None) -> str:
     v = _norm(value)
     if v in TRADE_MAP:
@@ -234,6 +231,7 @@ def normalize_trade(value: str | None) -> str:
     return v
 
 
+# Chuẩn hóa loại địa điểm du lịch (biển, sa mạc, lịch sử,...)
 def normalize_place_type(value: str | None) -> str:
     v = _norm(value)
     if v in PLACE_MAP:
@@ -243,19 +241,16 @@ def normalize_place_type(value: str | None) -> str:
     return v
 
 
+# Lấy giá trị từ dict, ưu tiên header EN rồi đến header VI
 def get_field(info: Dict[str, str], en: str, vi: str) -> str:
-    # read value from dict supporting both EN and VI headers
     return info.get(en) or info.get(vi) or ""
 
-
-# ----------------------
-# Simple forward-chaining engine for expert rules
-# ----------------------
 
 CountryFacts = Dict[str, Any]
 Rule = Callable[[str, Dict[str, str], Dict[str, Any], CountryFacts], bool]
 
 
+# Suy diễn tiến trên một quốc gia với tập luật cho trước
 def forward_chain_for_country(
     name: str, info: Dict[str, str], context: Dict[str, Any], rules: List[Rule]
 ) -> CountryFacts:
@@ -274,8 +269,7 @@ def forward_chain_for_country(
     return facts
 
 
-# ---- Luật cho gợi ý Sống ----
-
+# Luật: kiểm tra khớp khí hậu giữa mong muốn và quốc gia
 def rule_live_climate(name: str, info: Dict[str, str], ctx: Dict[str, Any], facts: CountryFacts) -> bool:
     if facts.get("climate_match") or not ctx.get("climate"):
         return False
@@ -286,6 +280,7 @@ def rule_live_climate(name: str, info: Dict[str, str], ctx: Dict[str, Any], fact
     return False
 
 
+# Luật: kiểm tra khớp hình thức chính phủ
 def rule_live_government(name: str, info: Dict[str, str], ctx: Dict[str, Any], facts: CountryFacts) -> bool:
     if facts.get("gov_match") or not ctx.get("government"):
         return False
@@ -296,6 +291,7 @@ def rule_live_government(name: str, info: Dict[str, str], ctx: Dict[str, Any], f
     return False
 
 
+# Luật: kiểm tra khớp tôn giáo chính
 def rule_live_religion(name: str, info: Dict[str, str], ctx: Dict[str, Any], facts: CountryFacts) -> bool:
     if facts.get("religion_match") or not ctx.get("religion"):
         return False
@@ -306,6 +302,7 @@ def rule_live_religion(name: str, info: Dict[str, str], ctx: Dict[str, Any], fac
     return False
 
 
+# Luật: chọn quốc gia nếu cả khí hậu, chính phủ, tôn giáo đều khớp
 def rule_live_selected(name: str, info: Dict[str, str], ctx: Dict[str, Any], facts: CountryFacts) -> bool:
     if facts.get("selected"):
         return False
@@ -315,6 +312,7 @@ def rule_live_selected(name: str, info: Dict[str, str], ctx: Dict[str, Any], fac
     return False
 
 
+# Danh sách luật áp dụng cho tư vấn nơi sống
 LIVE_RULES: List[Rule] = [
     rule_live_climate,
     rule_live_government,
@@ -323,8 +321,7 @@ LIVE_RULES: List[Rule] = [
 ]
 
 
-# ---- Luật cho gợi ý Làm việc ----
-
+# Luật: kiểm tra khớp lĩnh vực làm việc / kinh doanh
 def rule_work_field(name: str, info: Dict[str, str], ctx: Dict[str, Any], facts: CountryFacts) -> bool:
     if facts.get("field_match") or not ctx.get("domain"):
         return False
@@ -332,11 +329,8 @@ def rule_work_field(name: str, info: Dict[str, str], ctx: Dict[str, Any], facts:
     if info_field == ctx["domain"]:
         facts["field_match"] = True
         return True
-    return False
-
-
+# Luật: kiểm tra loại thương mại khi chọn chế độ business
 def rule_work_trade(name: str, info: Dict[str, str], ctx: Dict[str, Any], facts: CountryFacts) -> bool:
-    # Chỉ áp dụng khi chế độ là "business"
     if ctx.get("mode") != "business" or facts.get("trade_match") or not ctx.get("trade"):
         return False
     info_trade = normalize_trade(get_field(info, "trade type", "loại thương mại"))
@@ -346,6 +340,7 @@ def rule_work_trade(name: str, info: Dict[str, str], ctx: Dict[str, Any], facts:
     return False
 
 
+# Luật: chọn quốc gia phù hợp để làm việc hoặc kinh doanh
 def rule_work_selected(name: str, info: Dict[str, str], ctx: Dict[str, Any], facts: CountryFacts) -> bool:
     if facts.get("selected"):
         return False
@@ -362,14 +357,15 @@ def rule_work_selected(name: str, info: Dict[str, str], ctx: Dict[str, Any], fac
     return False
 
 
+# Danh sách luật áp dụng cho tư vấn làm việc / kinh doanh
 WORK_RULES: List[Rule] = [
     rule_work_field,
     rule_work_trade,
     rule_work_selected,
 ]
 
+# Tạo câu mô tả tóm tắt về một quốc gia để hiển thị cho người dùng
 def describe_country(name: str, info: Dict[str, str]) -> str:
-    """Tạo câu mô tả ngắn gọn về một quốc gia dựa trên dữ liệu CSV."""
     gov_en = normalize_government(get_field(info, "type of government", "hình thức chính phủ"))
     field_en = normalize_field(get_field(info, "field domain", "lĩnh vực"))
     rel_en = normalize_religion(get_field(info, "major religion", "tôn giáo chính"))
@@ -401,8 +397,8 @@ def describe_country(name: str, info: Dict[str, str]) -> str:
     return f"Với các điều kiện mà bạn chọn thì nơi phù hợp sẽ là {name}. Quốc gia này có {detail}."
 
 
+# Tạo câu mô tả tóm tắt về một điểm đến du lịch
 def describe_place(place: str, info: Dict[str, str], target_budget: float, selected_type: str | None) -> str:
-    """Tạo câu mô tả ngắn gọn về một điểm đến du lịch."""
     country = get_field(info, "country", "quốc gia") or "một quốc gia phù hợp"
     budget_val = target_budget
     if budget_val == 0.5:
