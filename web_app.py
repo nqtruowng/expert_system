@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import csv
+import json
+import os
 import zipfile
 from difflib import get_close_matches
 from typing import Any, Callable, Dict, List, Tuple
-from functools import wraps
+from functools import wraps, lru_cache
 
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -14,9 +16,77 @@ try:
 except ImportError:
     raise SystemExit("Missing dependency: beautifulsoup4. Install with: pip install beautifulsoup4")
 
+try:
+    # Dùng Google Translate qua deep-translator để dịch EN -> VI cho phần tra cứu
+    from deep_translator import GoogleTranslator
+except ImportError:
+    GoogleTranslator = None  # type: ignore[assignment]
+
 
 app = Flask(__name__)
 app.secret_key = "expert-system-demo"  # for flash messages only
+
+
+# ----------------------
+# Translation helper cho bước dịch TRƯỚC (EN -> VI) dùng trong script pretranslate_search.py.
+# Ở runtime, web app CHỈ đọc từ cache search_vi_cache.json, không gọi dịch nữa.
+# ----------------------
+
+if GoogleTranslator is not None:
+    _translator_en_vi: GoogleTranslator | None = GoogleTranslator(source="en", target="vi")
+else:
+    _translator_en_vi = None
+
+
+@lru_cache(maxsize=4096)
+def translate_en_vi(text: str | None) -> str:
+    """Dịch EN -> VI để tạo cache bằng Google Translate (deep-translator).
+
+    - Nếu thiếu thư viện / lỗi mạng thì trả lại tiếng Anh để không làm hỏng script.
+    """
+    text_norm = (text or "").strip()
+    if not text_norm:
+        return ""
+    if _translator_en_vi is None:
+        return text_norm
+    # Giới hạn độ dài để tránh lỗi từ dịch vụ; nếu quá dài thì giữ nguyên.
+    if len(text_norm) > 4000:
+        return text_norm
+    try:
+        return _translator_en_vi.translate(text_norm)  # type: ignore[call-arg]
+    except Exception:
+        return text_norm
+
+
+# ----------------------
+# Cache đã dịch sẵn cho phần tra cứu (nếu có)
+# ----------------------
+
+def _load_search_vi_cache() -> Dict[str, Dict[str, Dict[str, str]]]:
+    """Đọc file cache đã dịch sẵn (do script pretranslate_search.py tạo)."""
+    path = "search_vi_cache.json"
+    if not os.path.exists(path):
+        return {}
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            data = json.load(fh)
+        if isinstance(data, dict):
+            return data  # type: ignore[return-value]
+    except Exception:
+        return {}
+    return {}
+
+
+SEARCH_VI_CACHE: Dict[str, Dict[str, Dict[str, str]]] = _load_search_vi_cache()
+
+
+def get_vi_key_val(country_code: str, key_en: str, val_en: str) -> Tuple[str, str]:
+    """Lấy tiêu đề và nội dung tiếng Việt từ cache; nếu không có thì fallback về EN."""
+    country = SEARCH_VI_CACHE.get(country_code.lower()) or {}
+    entry = country.get(key_en) or {}
+    key_vi = entry.get("key_vi") or key_en
+    val_vi = entry.get("val_vi") or val_en
+    return key_vi, val_vi
 
 
 # ----------------------
@@ -608,7 +678,9 @@ def search_page():
 @app.post("/search")
 def do_search():
     country = request.form.get("country", "").strip()
-    query = (request.form.get("query", "") or "").lower()
+    query_raw = (request.form.get("query", "") or "")
+    # Giữ bản gốc để hiển thị lại, lower-case chỉ dùng cho kiểm tra tiền tố ;lst, ;keys, ;matches
+    query = query_raw.lower()
     if not country:
         flash("Please select a country.")
         return redirect(url_for("search_page"))
@@ -618,31 +690,57 @@ def do_search():
         flash("Country not found in list.")
         return redirect(url_for("search_page"))
 
+    code = code.lower()
     possibilities = parse_html_from_zip(code)
 
     special = query.strip()
     if special.startswith(";lst") or special.startswith(";keys") or special.startswith(";matches"):
         if special.startswith(";lst"):
-            results = [(k, possibilities[k]) for k in possibilities.keys()]
+            # Liệt kê toàn bộ: ưu tiên dùng bản dịch đã cache sẵn (nếu có)
+            results = [get_vi_key_val(code, k, possibilities[k]) for k in possibilities.keys()]
         elif special.startswith(";keys"):
-            results = [(k, "") for k in possibilities.keys()]
+            # Chỉ danh sách đầu mục: dùng key đã dịch sẵn
+            results = [(get_vi_key_val(code, k, "")[0], "") for k in possibilities.keys()]
         else:
-            # Syntax: ";matches <keyword>"
-            pattern = special.split(" ", 1)[1].strip() if " " in special else ""
+            # Syntax: ";matches <keyword>" – cho phép keyword là tiếng Việt.
+            # Vì đã có cache tiếng Việt, ta so khớp trực tiếp trên tiêu đề VI.
+            pattern_vi = special.split(" ", 1)[1].strip() if " " in special else ""
             keys = list(possibilities.keys())
-            if pattern:
-                matches = get_close_matches(pattern, keys, n=20, cutoff=0.3)
+            # Map từ key EN -> key VI đã cache (hoặc EN nếu chưa có trong cache)
+            vi_keys = {k: get_vi_key_val(code, k, "")[0] for k in keys}
+            if pattern_vi:
+                matches_vi = get_close_matches(pattern_vi.lower(), [v.lower() for v in vi_keys.values()], n=20, cutoff=0.3)
+                # Tìm lại key EN tương ứng với mỗi key VI khớp
+                matches: List[str] = []
+                for mv in matches_vi:
+                    for k, v in vi_keys.items():
+                        if v.lower() == mv and k not in matches:
+                            matches.append(k)
+                            break
             else:
                 matches = keys[:20]
-            results = [(m, possibilities.get(m, "")) for m in matches]
+            results = []
+            for m in matches:
+                key_vi, val_vi = get_vi_key_val(code, m, possibilities.get(m, ""))
+                results.append((key_vi, val_vi))
         return render_template("search.html", countries=load_country_list(), results=results, query=query, country=country)
 
     keys = list(possibilities.keys())
-    matches = get_close_matches(query, keys)
+    # Người dùng gõ tiếng Việt: so khớp trực tiếp với tiêu đề VI trong cache
+    vi_keys = {k: get_vi_key_val(code, k, "")[0] for k in keys}
+    matches_vi = get_close_matches(query.strip().lower(), [v.lower() for v in vi_keys.values()])
+    # Chuyển ngược về key EN
+    matches: List[str] = []
+    for mv in matches_vi:
+        for k, v in vi_keys.items():
+            if v.lower() == mv and k not in matches:
+                matches.append(k)
+                break
     results: List[tuple[str, str]] = []
     if matches:
         for m in matches:
-            results.append((m, possibilities[m]))
+            key_vi, val_vi = get_vi_key_val(code, m, possibilities[m])
+            results.append((key_vi, val_vi))
     return render_template("search.html", countries=load_country_list(), results=results, query=query, country=country)
 
 
