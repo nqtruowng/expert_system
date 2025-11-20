@@ -3,7 +3,7 @@ from __future__ import annotations
 import csv
 import zipfile
 from difflib import get_close_matches
-from typing import Dict, List, Tuple
+from typing import Any, Callable, Dict, List, Tuple
 from functools import wraps
 
 from flask import Flask, render_template, request, redirect, url_for, flash, session
@@ -177,6 +177,126 @@ def get_field(info: Dict[str, str], en: str, vi: str) -> str:
     # read value from dict supporting both EN and VI headers
     return info.get(en) or info.get(vi) or ""
 
+
+# ----------------------
+# Simple forward-chaining engine for expert rules
+# ----------------------
+
+CountryFacts = Dict[str, Any]
+Rule = Callable[[str, Dict[str, str], Dict[str, Any], CountryFacts], bool]
+
+
+def forward_chain_for_country(
+    name: str, info: Dict[str, str], context: Dict[str, Any], rules: List[Rule]
+) -> CountryFacts:
+    """Áp dụng các luật suy diễn tiến cho một quốc gia.
+
+    - facts: tập các sự kiện đã suy ra cho quốc gia đó.
+    - Mỗi rule() trả về True nếu tạo ra sự kiện mới, cho phép vòng lặp tiếp tục.
+    """
+    facts: CountryFacts = {}
+    changed = True
+    while changed:
+        changed = False
+        for rule in rules:
+            if rule(name, info, context, facts):
+                changed = True
+    return facts
+
+
+# ---- Luật cho gợi ý Sống ----
+
+def rule_live_climate(name: str, info: Dict[str, str], ctx: Dict[str, Any], facts: CountryFacts) -> bool:
+    if facts.get("climate_match") or not ctx.get("climate"):
+        return False
+    info_climate = normalize_climate(get_field(info, "average weather", "khí hậu trung bình"))
+    if info_climate == ctx["climate"]:
+        facts["climate_match"] = True
+        return True
+    return False
+
+
+def rule_live_government(name: str, info: Dict[str, str], ctx: Dict[str, Any], facts: CountryFacts) -> bool:
+    if facts.get("gov_match") or not ctx.get("government"):
+        return False
+    info_gov = normalize_government(get_field(info, "type of government", "hình thức chính phủ"))
+    if info_gov == ctx["government"]:
+        facts["gov_match"] = True
+        return True
+    return False
+
+
+def rule_live_religion(name: str, info: Dict[str, str], ctx: Dict[str, Any], facts: CountryFacts) -> bool:
+    if facts.get("religion_match") or not ctx.get("religion"):
+        return False
+    info_rel = normalize_religion(get_field(info, "major religion", "tôn giáo chính"))
+    if info_rel == ctx["religion"]:
+        facts["religion_match"] = True
+        return True
+    return False
+
+
+def rule_live_selected(name: str, info: Dict[str, str], ctx: Dict[str, Any], facts: CountryFacts) -> bool:
+    if facts.get("selected"):
+        return False
+    if facts.get("climate_match") and facts.get("gov_match") and facts.get("religion_match"):
+        facts["selected"] = True
+        return True
+    return False
+
+
+LIVE_RULES: List[Rule] = [
+    rule_live_climate,
+    rule_live_government,
+    rule_live_religion,
+    rule_live_selected,
+]
+
+
+# ---- Luật cho gợi ý Làm việc ----
+
+def rule_work_field(name: str, info: Dict[str, str], ctx: Dict[str, Any], facts: CountryFacts) -> bool:
+    if facts.get("field_match") or not ctx.get("domain"):
+        return False
+    info_field = normalize_field(get_field(info, "field domain", "lĩnh vực"))
+    if info_field == ctx["domain"]:
+        facts["field_match"] = True
+        return True
+    return False
+
+
+def rule_work_trade(name: str, info: Dict[str, str], ctx: Dict[str, Any], facts: CountryFacts) -> bool:
+    # Chỉ áp dụng khi chế độ là "business"
+    if ctx.get("mode") != "business" or facts.get("trade_match") or not ctx.get("trade"):
+        return False
+    info_trade = normalize_trade(get_field(info, "trade type", "loại thương mại"))
+    if info_trade == ctx["trade"]:
+        facts["trade_match"] = True
+        return True
+    return False
+
+
+def rule_work_selected(name: str, info: Dict[str, str], ctx: Dict[str, Any], facts: CountryFacts) -> bool:
+    if facts.get("selected"):
+        return False
+    # Nếu là business: cần cả field_match và trade_match.
+    # Nếu là job: chỉ cần field_match.
+    if ctx.get("mode") == "business":
+        if facts.get("field_match") and facts.get("trade_match"):
+            facts["selected"] = True
+            return True
+    else:
+        if facts.get("field_match"):
+            facts["selected"] = True
+            return True
+    return False
+
+
+WORK_RULES: List[Rule] = [
+    rule_work_field,
+    rule_work_trade,
+    rule_work_selected,
+]
 
 def describe_country(name: str, info: Dict[str, str]) -> str:
     """Tạo câu mô tả ngắn gọn về một quốc gia dựa trên dữ liệu CSV."""
@@ -552,16 +672,17 @@ def expert_live():
     government_raw = request.form.get("government")
     religion_raw = request.form.get("religion")
 
-    climate = normalize_climate(climate_raw)
-    government = normalize_government(government_raw)
-    religion = normalize_religion(religion_raw)
+    # Chuẩn hóa input người dùng thành context cho bộ suy diễn
+    context = {
+        "climate": normalize_climate(climate_raw),
+        "government": normalize_government(government_raw),
+        "religion": normalize_religion(religion_raw),
+    }
 
     result: List[Dict[str, str]] = []
     for name, info in details.items():
-        info_climate = normalize_climate(get_field(info, "average weather", "khí hậu trung bình"))
-        info_gov = normalize_government(get_field(info, "type of government", "hình thức chính phủ"))
-        info_rel = normalize_religion(get_field(info, "major religion", "tôn giáo chính"))
-        if info_climate == climate and info_gov == government and info_rel == religion:
+        facts = forward_chain_for_country(name, info, context, LIVE_RULES)
+        if facts.get("selected"):
             result.append(
                 {
                     "name": name,
@@ -591,31 +712,23 @@ def expert_work():
     mode = request.form.get("mode")  # business or job
     trade_raw = request.form.get("trade")
     domain_raw = request.form.get("domain")
-    domain = normalize_field(domain_raw)
+
+    context = {
+        "mode": mode,
+        "trade": normalize_trade(trade_raw) if trade_raw else None,
+        "domain": normalize_field(domain_raw) if domain_raw else None,
+    }
     result: List[Dict[str, str]] = []
 
-    if mode == "business":
-        trade = normalize_trade(trade_raw)  # import/export
-        for name, info in details.items():
-            info_trade = normalize_trade(get_field(info, "trade type", "loại thương mại"))
-            info_field = normalize_field(get_field(info, "field domain", "lĩnh vực"))
-            if info_trade == trade and info_field == domain:
-                result.append(
-                    {
-                        "name": name,
-                        "summary": describe_country(name, info),
-                    }
-                )
-    else:
-        for name, info in details.items():
-            info_field = normalize_field(get_field(info, "field domain", "lĩnh vực"))
-            if info_field == domain:
-                result.append(
-                    {
-                        "name": name,
-                        "summary": describe_country(name, info),
-                    }
-                )
+    for name, info in details.items():
+        facts = forward_chain_for_country(name, info, context, WORK_RULES)
+        if facts.get("selected"):
+            result.append(
+                {
+                    "name": name,
+                    "summary": describe_country(name, info),
+                }
+            )
 
     return render_template(
         "expert.html",
